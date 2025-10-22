@@ -4,18 +4,15 @@ books:
   - id: example--tdd-by-example
     title: "Test-Driven Development: By Example"
     authors: [Kent Beck]
-    isbn: "9780321146533"
     tags: [programming, TDD, testing]
     notes: "Great book for learning TDD practices"
   - id: example--odyssey
     title: "The Odyssey"
     authors: [Homer]
-    isbn: "9780140449136"
     tags: [classic, epic, literature]
     notes: "Ancient Greek epic poem"
   - id: example--clean-code
     title: "Clean Code: A Handbook of Agile Software Craftsmanship"
     authors: [Robert C. Martin]
-    isbn: "9780132350884"
     tags: [programming, software-engineering, best-practices]
     notes: "Essential reading for any developer"
