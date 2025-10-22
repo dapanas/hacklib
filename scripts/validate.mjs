@@ -1,13 +1,18 @@
-import fs from 'node:fs/promises';
-import path from 'node:path';
+import Ajv from 'ajv';
+import addFormats from 'ajv-formats';
 import { glob } from 'glob';
 import yaml from 'js-yaml';
-import Ajv from 'ajv';
+import fs from 'node:fs/promises';
+import path from 'node:path';
 
 const ajv = new Ajv({ allErrors: true, strict: false });
+addFormats(ajv);
 
 async function loadSchema(name) { 
-  return JSON.parse(await fs.readFile(path.join('schemas', name), 'utf8')); 
+  const schema = JSON.parse(await fs.readFile(path.join('schemas', name), 'utf8'));
+  // Remove the $schema reference to avoid the draft 2020-12 issue
+  delete schema.$schema;
+  return schema;
 }
 
 const vLibrary = ajv.compile(await loadSchema('library.schema.json'));
