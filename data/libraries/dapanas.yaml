@@ -1,0 +1,63 @@
+owner: dapanas
+updated_at: "2025-10-22"
+books:
+  - id: dapanas--palabrologia
+    title: "Palabrología"
+    authors: ["Virgilio Ortega"]
+    tags: ["literatura", "ensayo"]
+    notes: "El origen de la palabra y su significado."
+  - id: dapanas--getting-started-data
+    title: "Getting Started with Data Science"
+    authors: ["Murtaza Haider"]
+    tags: ["data", "estadística"]
+    notes: "Making Sense of Data with Analytics"
+  - id: dapanas--release-it
+    title: "Release It! (Second Edition)"
+    authors: ["Michael T. Nygard"]
+    tags: ["software", "arquitectura", "devops"]
+    notes: "Design and Deploy Production-Ready Software"
+  - id: dapanas--staff-engineer
+    title: "Staff Engineer"
+    authors: ["Will Larson"]
+    tags: ["ingeniería", "liderazgo", "carrera"]
+    notes: "Leadership beyond the management track"
+  - id: dapanas--habitos-atomicos
+    title: "Hábitos Atómicos"
+    authors: ["James Clear"]
+    tags: ["hábitos", "productividad", "desarrollo-personal"]
+    notes: ""
+  - id: dapanas--philosophy-of-software-design
+    title: "A Philosophy of Software Design"
+    authors: ["John Ousterhout"]
+    tags: ["software", "arquitectura", "diseño"]
+    notes: ""
+  - id: dapanas--placer-matematicas
+    title: "El infinito placer de las matemáticas"
+    authors: ["Alessandro Maccarrone"]
+    tags: ["matemáticas", "divulgación", "ciencia"]
+    notes: ""
+  - id: dapanas--asimov-cuentos-completos-i
+    title: "Cuentos Completos I"
+    authors: ["Isaac Asimov"]
+    tags: ["ciencia-ficción", "cuentos", "clásico"]
+    notes: ""
+  - id: dapanas--duma-key
+    title: "Duma Key"
+    authors: ["Stephen King"]
+    tags: ["terror", "novela", "suspenso"]
+    notes: ""
+  - id: dapanas--bazar-malos-suenos
+    title: "El bazar de los malos sueños"
+    authors: ["Stephen King"]
+    tags: ["terror", "relatos", "misterio"]
+    notes: ""
+  - id: dapanas--pensar-mas-pensar-mejor
+    title: "Pensar más, pensar mejor"
+    authors: ["Dani Sánchez-Crespo"]
+    tags: ["pensamiento-crítico", "cognición", "ensayo"]
+    notes: "Cómo agilizar tu mente"
+  - id: dapanas--code-hidden-language
+    title: "Code: The Hidden Language of Computer Hardware and Software (Second Edition)"
+    authors: ["Charles Petzold"]
+    tags: ["programación", "computación", "historia-tecnología"]
+    notes: ""
