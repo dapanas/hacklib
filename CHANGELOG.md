@@ -5,6 +5,26 @@ All notable changes to HackLib will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.2.0] - 2025-10-22
+
+### Added
+- Responsive hamburger menu for mobile navigation
+- Smooth opening/closing animations for mobile menu
+
+### Changed
+- Extracted header into separate client component
+- Improved mobile navigation UX with proper touch interactions
+- Enhanced accessibility with proper ARIA labels
+
+### Fixed
+- Horizontal scrolling issues on mobile devices
+- Mobile navigation not working properly on small screens
+
+### Technical
+- Implemented proper CSS transitions for mobile menu states
+- Added pointer-events management for better interaction handling
+- Improved component architecture with client/server component separation
+
 ## [1.1.0] - 2025-10-22
 
 ### Added
