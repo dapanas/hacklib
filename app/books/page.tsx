@@ -5,7 +5,15 @@ import BookCard from "@/components/BookCard";
 export const revalidate = 60;
 
 export default async function BooksPage() {
-  const books = await getAllBooks();
+  let books = [];
+  let error = null;
+  
+  try {
+    books = await getAllBooks();
+  } catch (err) {
+    console.error('Error loading books:', err);
+    error = err instanceof Error ? err.message : 'Failed to load books';
+  }
   
   // Get availability for each book
   const booksWithAvailability = await Promise.all(
@@ -32,7 +40,29 @@ export default async function BooksPage() {
         </div>
       </div>
       
-      {booksWithAvailability.length === 0 ? (
+      {error ? (
+        <div className="text-center py-20">
+          <div className="glass-card p-12 max-w-md mx-auto">
+            <div className="w-20 h-20 mx-auto mb-6 flex items-center justify-center">
+              <div className="w-16 h-16 bg-gradient-to-br from-danger-100 to-danger-200 rounded-lg flex items-center justify-center">
+                <div className="w-8 h-8 bg-danger-400 rounded-full flex items-center justify-center">
+                  <span className="text-white text-sm font-bold">!</span>
+                </div>
+              </div>
+            </div>
+            <h3 className="text-2xl font-semibold text-gray-900 mb-4">Unable to load books</h3>
+            <p className="text-gray-600 mb-6">
+              {error}. Please check your data files or try again later.
+            </p>
+            <a 
+              href="/" 
+              className="btn-primary"
+            >
+              Go Home
+            </a>
+          </div>
+        </div>
+      ) : booksWithAvailability.length === 0 ? (
         <div className="text-center py-20">
           <div className="glass-card p-12 max-w-md mx-auto">
             <div className="w-20 h-20 mx-auto mb-6 animate-bounce flex items-center justify-center">

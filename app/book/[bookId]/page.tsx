@@ -8,26 +8,73 @@ export const revalidate = 60;
 
 export default async function BookPage({ params }: { params: Promise<{ bookId: string }> }) {
   const { bookId } = await params;
-  const book = await getBookById(decodeURIComponent(bookId));
-  const availability = await getAvailability(book.id);
+  
+  let book;
+  let availability: { available: boolean; borrower?: string; until?: string; status?: string } = { available: true };
+  let error = null;
+  
+  try {
+    book = await getBookById(decodeURIComponent(bookId));
+    availability = await getAvailability(book.id);
+  } catch (err) {
+    console.error('Error loading book:', err);
+    error = err instanceof Error ? err.message : 'Failed to load book';
+  }
+  
   const currentUsername = await getCurrentUsername();
 
+  // Prepare loan request data
   const org = process.env.NEXT_PUBLIC_GH_ORG!;
   const repo = process.env.NEXT_PUBLIC_GH_REPO!;
   const borrower = currentUsername || process.env.NEXT_PUBLIC_DEFAULT_BORROWER || "your-github";
   const requestedAt = new Date().toISOString().slice(0, 10);
   const until = new Date(Date.now() + 1000 * 60 * 60 * 24 * 21).toISOString().slice(0, 10); // +21d
   const year = requestedAt.slice(0, 4);
-  const createUrl = buildCreateLoanURL({
-    org, 
-    repo, 
-    year,
-    owner: book.owner,
-    bookId: book.id,
-    borrower,
-    requestedAt,
-    until
-  });
+  
+  // Only build loan URL if book was loaded successfully
+  let createUrl = '';
+  if (book) {
+    createUrl = buildCreateLoanURL({
+      org, 
+      repo, 
+      year,
+      owner: book.owner,
+      bookId: book.id,
+      borrower,
+      requestedAt,
+      until
+    });
+  }
+
+  if (error) {
+    return (
+      <div className="py-8">
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center py-20">
+            <div className="glass-card p-12 max-w-md mx-auto">
+              <div className="w-20 h-20 mx-auto mb-6 flex items-center justify-center">
+                <div className="w-16 h-16 bg-gradient-to-br from-danger-100 to-danger-200 rounded-lg flex items-center justify-center">
+                  <div className="w-8 h-8 bg-danger-400 rounded-full flex items-center justify-center">
+                    <span className="text-white text-sm font-bold">!</span>
+                  </div>
+                </div>
+              </div>
+              <h3 className="text-2xl font-semibold text-gray-900 mb-4">Book not found</h3>
+              <p className="text-gray-600 mb-6">
+                {error}. The book may not exist or there might be a configuration issue.
+              </p>
+              <a 
+                href="/books" 
+                className="btn-primary"
+              >
+                Back to Books
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="py-8">

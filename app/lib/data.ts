@@ -3,7 +3,7 @@ import path from "node:path";
 import yaml from "js-yaml";
 
 export async function getAllLibraries() {
-  const dir = "data/libraries";
+  const dir = path.join(process.cwd(), "data/libraries");
   const files = await fs.readdir(dir);
   const libs = [];
   for (const f of files) {
@@ -29,7 +29,7 @@ export async function getBookById(id: string) {
 }
 
 export async function getAllLoans() {
-  const base = "data/loans";
+  const base = path.join(process.cwd(), "data/loans");
   const years = await fs.readdir(base).catch(() => []);
   const loans: any[] = [];
   for (const y of years) {
