@@ -1,0 +1,18 @@
+# Code owners for HackLab Book Lending
+# Each member must approve loans for their own books
+
+# Example: the book owner must approve loans under their folder.
+# Duplicate the following line per member, replacing "example" with the GitHub handle.
+
+# Library files
+/data/libraries/example.yaml        @example
+/data/libraries/dapanas.yaml        @dapanas
+
+# Loan files - each owner approves their own loans
+/data/loans/*/example/**            @example
+/data/loans/*/dapanas/**            @dapanas
+
+# General project files
+/.github/                           @dapanas
+/scripts/                           @dapanas
+/schemas/                           @dapanas
