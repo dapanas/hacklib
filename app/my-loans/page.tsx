@@ -1,6 +1,7 @@
 import { getAllLoans } from "@/lib/data";
 import { getAllBooks } from "@/lib/data";
 import { getCurrentUsername } from "@/lib/auth";
+import Nickname from "@/components/Nickname";
 
 export const revalidate = 60;
 
@@ -87,12 +88,16 @@ export default async function MyLoansPage() {
                   
                   <div>
                     <dt className="text-gray-500">Book Owner</dt>
-                    <dd className="text-gray-900">@{loan.owner}</dd>
+                    <dd className="text-gray-900">
+                      <Nickname username={loan.owner} />
+                    </dd>
                   </div>
                   
                   <div>
                     <dt className="text-gray-500">Borrower</dt>
-                    <dd className="text-gray-900">@{loan.borrower}</dd>
+                    <dd className="text-gray-900">
+                      <Nickname username={loan.borrower} />
+                    </dd>
                   </div>
                   
                   <div>

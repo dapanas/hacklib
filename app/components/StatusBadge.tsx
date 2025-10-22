@@ -1,3 +1,5 @@
+import Nickname from './Nickname';
+
 interface StatusBadgeProps {
   status: 'available' | 'borrowed' | 'pending' | 'requested' | 'approved' | 'ongoing' | 'returned' | 'rejected' | 'lost';
   borrower?: string;
@@ -20,7 +22,8 @@ export default function StatusBadge({ status, borrower, until }: StatusBadgeProp
       case 'borrowed':
       case 'ongoing':
         return { 
-          text: `Borrowed by @${borrower}`, 
+          text: `Borrowed by `, 
+          borrower: borrower,
           className: 'status-badge status-borrowed',
           icon: (
             <div className="w-3 h-3 bg-danger-600 rounded-sm flex items-center justify-center">
@@ -88,13 +91,14 @@ export default function StatusBadge({ status, borrower, until }: StatusBadgeProp
     }
   };
 
-  const { text, className, icon } = getStatusInfo();
+  const { text, className, icon, borrower: statusBorrower } = getStatusInfo();
 
   return (
     <div className="flex flex-col items-end">
       <span className={`${className} flex items-center gap-2`}>
         {icon}
         {text}
+        {statusBorrower && <Nickname username={statusBorrower} className="text-xs" />}
       </span>
       {until && (status === 'borrowed' || status === 'ongoing') && (
         <span className="text-xs text-gray-500 mt-1 font-medium">

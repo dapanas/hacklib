@@ -1,4 +1,5 @@
 import StatusBadge from './StatusBadge';
+import Nickname from './Nickname';
 
 interface BookCardProps {
   book: {
@@ -35,7 +36,12 @@ export default function BookCard({ book, availability, onRequestLoan }: BookCard
       <div className="flex-1">
         {/* Title */}
         <h3 className="text-xl font-semibold text-gray-900 line-clamp-2 group-hover:text-primary-700 transition-colors duration-200 mb-3 leading-tight">
-          {book.title}
+          <a 
+            href={`/book/${encodeURIComponent(book.id)}`}
+            className="hover:text-primary-700 transition-colors duration-200"
+          >
+            {book.title}
+          </a>
         </h3>
         
         {/* Author */}
@@ -49,7 +55,7 @@ export default function BookCard({ book, availability, onRequestLoan }: BookCard
         {/* Owner */}
         <div className="flex items-center gap-2 text-sm text-gray-500 mb-4">
           <span className="w-2 h-2 bg-primary-400 rounded-full"></span>
-          <span>@{book.owner}</span>
+          <Nickname username={book.owner} className="text-sm" />
         </div>
         
         {/* Bottom Row: Status and View Details */}

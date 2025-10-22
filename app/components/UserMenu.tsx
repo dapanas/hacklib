@@ -2,6 +2,7 @@
 
 import { signOut } from "next-auth/react"
 import { useState } from "react"
+import Nickname from "./Nickname"
 
 interface UserMenuProps {
   user: {
@@ -53,7 +54,7 @@ export default function UserMenu({ user }: UserMenuProps) {
                 {user.name || user.username}
               </p>
               <p className="text-xs text-gray-500">
-                @{user.username}
+                {user.username && <Nickname username={user.username} className="text-xs" />}
               </p>
             </div>
             <button
