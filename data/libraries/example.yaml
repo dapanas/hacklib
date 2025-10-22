@@ -1,5 +1,5 @@
 owner: example
-updated_at: 2025-01-09
+updated_at: "2025-01-09"
 books:
   - id: example--tdd-by-example
     title: "Test-Driven Development: By Example"
