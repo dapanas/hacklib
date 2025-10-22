@@ -1,0 +1,31 @@
+{
+  "name": "hacklib",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "validate": "node scripts/validate.mjs"
+  },
+  "dependencies": {
+    "@auth/core": "^0.41.0",
+    "ajv": "^8.17.1",
+    "glob": "^11.0.0",
+    "js-yaml": "^4.1.0",
+    "next": "^15.5.6",
+    "next-auth": "^5.0.0-beta.29",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0"
+  },
+  "devDependencies": {
+    "@types/js-yaml": "^4.0.9",
+    "@types/node": "^20.19.23",
+    "@types/react": "^19.2.2",
+    "@types/react-dom": "^19.2.2",
+    "autoprefixer": "^10.4.0",
+    "postcss": "^8.4.0",
+    "tailwindcss": "^3.4.18",
+    "typescript": "^5.9.3"
+  }
+}
