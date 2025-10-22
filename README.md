@@ -1,6 +1,6 @@
 # HackLib — Modern Book Lending System
 
-A modern, minimalist book lending system where **GitHub is the database**, **YAML is the state**, and **PRs are the workflow**. Features GitHub OAuth authentication, glass-morphism UI, and automated validation. Deployed on **Vercel** with **Next.js 15**.
+A low-ops book lending system where **GitHub is the database**, **YAML is the state**, and **PRs are the workflow**. Features GitHub OAuth authentication, glass-morphism UI, and automated validation. Deployed on **Vercel** with **Next.js 15**.
 
 ## Quickstart
 
