@@ -1,0 +1,58 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "required": ["loan_id", "book_id", "owner", "borrower", "status", "requested_at", "until"],
+  "properties": {
+    "loan_id": {
+      "type": "string",
+      "description": "Unique identifier for the loan"
+    },
+    "book_id": {
+      "type": "string",
+      "description": "ID of the book being loaned"
+    },
+    "owner": {
+      "type": "string",
+      "description": "GitHub handle of the book owner"
+    },
+    "borrower": {
+      "type": "string",
+      "description": "GitHub handle of the borrower"
+    },
+    "status": {
+      "type": "string",
+      "enum": ["requested", "approved", "rejected", "ongoing", "returned", "lost"],
+      "description": "Current status of the loan"
+    },
+    "requested_at": {
+      "type": "string",
+      "format": "date",
+      "description": "Date when the loan was requested"
+    },
+    "approved_at": {
+      "type": ["string", "null"],
+      "format": "date",
+      "description": "Date when the loan was approved"
+    },
+    "started_at": {
+      "type": ["string", "null"],
+      "format": "date",
+      "description": "Date when the loan started"
+    },
+    "until": {
+      "type": "string",
+      "format": "date",
+      "description": "Expected return date"
+    },
+    "returned_at": {
+      "type": ["string", "null"],
+      "format": "date",
+      "description": "Date when the book was returned"
+    },
+    "notes": {
+      "type": ["string", "null"],
+      "description": "Additional notes about the loan"
+    }
+  },
+  "additionalProperties": false
+}

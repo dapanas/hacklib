@@ -1,0 +1,57 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "required": ["owner", "books"],
+  "properties": {
+    "owner": {
+      "type": "string",
+      "description": "GitHub handle of the library owner"
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date",
+      "description": "Last update date in YYYY-MM-DD format"
+    },
+    "books": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "title"],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Unique identifier for the book"
+          },
+          "title": {
+            "type": "string",
+            "description": "Book title"
+          },
+          "authors": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "List of authors"
+          },
+          "isbn": {
+            "type": ["string", "number"],
+            "description": "ISBN number"
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Tags for categorization"
+          },
+          "notes": {
+            "type": "string",
+            "description": "Additional notes about the book"
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}
