@@ -3,6 +3,7 @@ import { getAvailability } from "@/lib/availability";
 import { buildCreateLoanURL } from "@/lib/github";
 import { getCurrentUsername } from "@/lib/auth";
 import StatusBadge from "@/components/StatusBadge";
+import Nickname from "@/components/Nickname";
 
 export const revalidate = 60;
 
@@ -103,7 +104,7 @@ export default async function BookPage({ params }: { params: Promise<{ bookId: s
               <div className="flex items-center gap-4 text-sm text-gray-500">
                 <span className="flex items-center gap-2">
                   <span className="w-2 h-2 bg-primary-400 rounded-full"></span>
-                  Owner: @{book.owner}
+                  Owner: <Nickname username={book.owner} />
                 </span>
               </div>
             </div>
@@ -188,9 +189,9 @@ export default async function BookPage({ params }: { params: Promise<{ bookId: s
                       <strong>Request details:</strong>
                     </div>
                     <div className="text-xs text-gray-500 space-y-1">
-                      <p>• Borrower: @{borrower}</p>
+                      <p>• Borrower: <Nickname username={borrower} className="text-xs" /></p>
                       <p>• Due date: {until}</p>
-                      <p>• Owner @{book.owner} will review</p>
+                      <p>• Owner <Nickname username={book.owner} className="text-xs" /> will review</p>
                     </div>
                   </div>
                 </div>
@@ -205,7 +206,7 @@ export default async function BookPage({ params }: { params: Promise<{ bookId: s
                       Currently borrowed by:
                     </p>
                     <p className="text-sm text-danger-600">
-                      @{availability.borrower}
+                      <Nickname username={availability.borrower!} className="text-danger-600 hover:text-danger-700" />
                     </p>
                     {availability.until && (
                       <p className="text-xs text-danger-500 mt-1">
