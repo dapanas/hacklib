@@ -5,6 +5,30 @@ All notable changes to HackLib will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.0] - 2025-10-22
+
+### Added
+- Colored accent strips for book status indicators
+- Utility function for automatic Date object conversion
+- Enhanced visual feedback with box shadows on cards
+- Improved responsive container constraints across all pages
+
+### Changed
+- Redesigned BookCard with minimalist glass-morphism aesthetic
+- Replaced floating status badges with colored bottom border indicators
+- Updated status display to show "Available" or "Borrowed" text
+- Improved layout consistency with proper padding and margins
+- Removed ISBN field from book schema and display logic
+
+### Fixed
+- React rendering errors caused by Date objects in YAML data
+- Inconsistent card heights in grid layouts
+- Missing visual separation between UI elements
+
+### Technical
+- Enhanced error handling for missing data files
+- Improved TypeScript type safety for date handling
+
 ## [1.0.0] - 2025-10-21
 
 ### Added
