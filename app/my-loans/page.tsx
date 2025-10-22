@@ -38,13 +38,14 @@ export default async function MyLoansPage() {
   };
 
   return (
-    <div>
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900 mb-4">My Loans</h1>
-        <p className="text-gray-600">
-          Track your book loans and requests
-        </p>
-      </div>
+    <div className="py-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="mb-8">
+          <h1 className="text-3xl font-bold text-gray-900 mb-4">My Loans</h1>
+          <p className="text-gray-600">
+            Track your book loans and requests
+          </p>
+        </div>
       
       {userLoans.length === 0 ? (
         <div className="text-center py-12">
@@ -59,7 +60,7 @@ export default async function MyLoansPage() {
             const status = getLoanStatus(loan);
             
             return (
-              <div key={loan.loan_id} className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+              <div key={loan.loan_id} className="bg-white rounded-lg shadow-md border border-gray-200 p-6 hover:shadow-lg transition-shadow duration-200">
                 <div className="flex justify-between items-start mb-4">
                   <div className="flex-1">
                     <h3 className="text-lg font-semibold text-gray-900">
@@ -122,6 +123,7 @@ export default async function MyLoansPage() {
           })}
         </div>
       )}
+      </div>
     </div>
   );
 }

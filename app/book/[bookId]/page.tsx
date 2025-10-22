@@ -78,7 +78,7 @@ export default async function BookPage({ params }: { params: Promise<{ bookId: s
 
   return (
     <div className="py-8">
-      <div className="max-w-6xl mx-auto">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Back Button */}
         <div className="mb-8">
           <a 
@@ -105,11 +105,6 @@ export default async function BookPage({ params }: { params: Promise<{ bookId: s
                   <span className="w-2 h-2 bg-primary-400 rounded-full"></span>
                   Owner: @{book.owner}
                 </span>
-                {book.isbn && (
-                  <span className="font-mono text-xs bg-gray-100 px-2 py-1 rounded-md border">
-                    ISBN: {book.isbn}
-                  </span>
-                )}
               </div>
             </div>
             <div className="lg:flex-shrink-0">

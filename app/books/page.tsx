@@ -25,8 +25,9 @@ export default async function BooksPage() {
 
   return (
     <div className="py-8">
-      {/* Header Section */}
-      <div className="mb-12 text-center">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Header Section */}
+        <div className="mb-12 text-center">
         <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4 animate-fade-in">
           Book Catalog
         </h1>
@@ -93,7 +94,7 @@ export default async function BooksPage() {
           {booksWithAvailability.map((book: any, index: number) => (
             <div 
               key={book.id}
-              className="animate-fade-in"
+              className="animate-fade-in h-full"
               style={{ animationDelay: `${index * 0.1}s` }}
             >
               <BookCard 
@@ -104,6 +105,7 @@ export default async function BooksPage() {
           ))}
         </div>
       )}
+      </div>
     </div>
   );
 }
