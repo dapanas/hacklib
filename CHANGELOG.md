@@ -5,6 +5,18 @@ All notable changes to HackLib will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.3.1] - 2025-10-22
+
+### Fixed
+- Validation script failing due to AJV draft 2020-12 schema loading error
+- Date format issues in YAML files causing schema validation failures
+- Missing ajv-formats dependency for proper format validation
+
+### Technical
+- Added ajv-formats package for enhanced schema validation
+- Modified validation script to handle schema loading properly
+- Fixed date field formatting in example data files
+
 ## [1.3.0] - 2025-10-22
 
 ### Added
