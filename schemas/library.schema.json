@@ -33,10 +33,6 @@
             },
             "description": "List of authors"
           },
-          "isbn": {
-            "type": ["string", "number"],
-            "description": "ISBN number"
-          },
           "tags": {
             "type": "array",
             "items": {

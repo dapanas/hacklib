@@ -2,6 +2,34 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import yaml from "js-yaml";
 
+/**
+ * Converts Date objects to ISO date strings (YYYY-MM-DD format)
+ * to prevent React rendering errors when dates are parsed by js-yaml
+ */
+function convertDatesToStrings(obj: any): any {
+  if (obj === null || obj === undefined) {
+    return obj;
+  }
+  
+  if (obj instanceof Date) {
+    return obj.toISOString().slice(0, 10);
+  }
+  
+  if (Array.isArray(obj)) {
+    return obj.map(convertDatesToStrings);
+  }
+  
+  if (typeof obj === 'object') {
+    const converted: any = {};
+    for (const [key, value] of Object.entries(obj)) {
+      converted[key] = convertDatesToStrings(value);
+    }
+    return converted;
+  }
+  
+  return obj;
+}
+
 export async function getAllLibraries() {
   const dir = path.join(process.cwd(), "data/libraries");
   const files = await fs.readdir(dir);
@@ -9,7 +37,7 @@ export async function getAllLibraries() {
   for (const f of files) {
     if (!f.endsWith(".yaml")) continue;
     const doc = yaml.load(await fs.readFile(path.join(dir, f), "utf8")) as any;
-    libs.push(doc);
+    libs.push(convertDatesToStrings(doc));
   }
   return libs;
 }
@@ -41,7 +69,7 @@ export async function getAllLoans() {
       for (const f of files) {
         if (!f.endsWith(".yaml")) continue;
         const doc = yaml.load(await fs.readFile(path.join(dir, f), "utf8")) as any;
-        loans.push(doc);
+        loans.push(convertDatesToStrings(doc));
       }
     }
   }

@@ -5,7 +5,7 @@ import './globals.css'
 
 export const metadata: Metadata = {
   title: 'HackLib - HackLab Book Lending',
-  description: 'A nerdy, low-ops lending system where GitHub is the database, YAML is the state, and PRs are the workflow',
+  description: 'A low-ops lending system where GitHub is the database, YAML is the state, and PRs are the workflow',
 }
 
 export default function RootLayout({

@@ -13,7 +13,7 @@ export default function Home() {
             </span>
           </h1>
           <p className="text-xl md:text-2xl text-gray-600 mb-12 max-w-3xl mx-auto leading-relaxed animate-slide-up">
-            A nerdy, low-ops lending system where{' '}
+            A low-ops lending system where{' '}
             <span className="font-semibold text-primary-700">GitHub is the database</span>,{' '}
             <span className="font-semibold text-primary-700">YAML is the state</span>, and{' '}
             <span className="font-semibold text-primary-700">PRs are the workflow</span>.
