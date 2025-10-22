@@ -5,6 +5,21 @@ All notable changes to HackLib will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.3.0] - 2025-10-22
+
+### Added
+- Clickable book titles in BookCard component for improved navigation
+- Reusable Nickname component for consistent GitHub profile linking
+- GitHub profile links for all username displays across the application
+
+### Changed
+- Enhanced user experience with clickable book titles
+
+### Technical
+- Created modular Nickname component for reusability
+- Updated BookCard, StatusBadge, UserMenu, and loan pages
+- Implemented proper target="_blank" and rel="noopener noreferrer" attributes
+
 ## [1.2.1] - 2025-10-22
 
 ### Changed
