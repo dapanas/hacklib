@@ -1,3 +1,4 @@
+import { Analytics } from "@vercel/analytics/next"
 import type { Metadata } from 'next'
 import { SessionProvider } from 'next-auth/react'
 import Header from './components/Header'
@@ -30,6 +31,7 @@ export default function RootLayout({
               </div>
             </div>
           </footer>
+          <Analytics />
         </SessionProvider>
       </body>
     </html>
