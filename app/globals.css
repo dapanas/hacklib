@@ -104,4 +104,125 @@
            focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent
            transition-all duration-200;
   }
+  
+  /* Terminal Styles */
+  .terminal-overlay {
+    @apply fixed inset-0 z-[9999] flex items-center justify-center;
+    background: rgba(0, 0, 0, 0.95);
+  }
+  
+  .terminal-window {
+    @apply w-full h-full max-w-6xl max-h-[80vh] mx-4 my-8;
+    border: 1px solid #333;
+    border-radius: 8px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
+  }
+  
+  .terminal-header {
+    @apply flex items-center justify-between px-4 py-2;
+    background: #1a1a1a;
+    border-bottom: 1px solid #333;
+    border-radius: 8px 8px 0 0;
+  }
+  
+  .terminal-title {
+    @apply text-sm font-medium;
+    color: #ccc;
+  }
+  
+  .terminal-controls {
+    @apply flex items-center gap-2;
+  }
+  
+  .terminal-close {
+    @apply w-6 h-6 flex items-center justify-center rounded-full;
+    background: #ff4444;
+    color: white;
+    font-size: 14px;
+    line-height: 1;
+    cursor: pointer;
+    transition: background-color 0.2s;
+  }
+  
+  .terminal-close:hover {
+    background: #ff6666;
+  }
+  
+  .terminal-content {
+    @apply p-4 h-full overflow-y-auto;
+    font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+    font-size: 14px;
+    line-height: 1.4;
+  }
+  
+  .terminal-line {
+    @apply mb-1;
+  }
+  
+  .terminal-prompt-line {
+    @apply flex items-start gap-2;
+  }
+  
+  .terminal-prompt {
+    @apply font-bold;
+    flex-shrink: 0;
+  }
+  
+  .terminal-input-line {
+    @apply flex items-center gap-2;
+  }
+  
+  .terminal-input {
+    @apply flex-1;
+    background: transparent;
+    border: none;
+    outline: none;
+    font-family: inherit;
+    font-size: inherit;
+    line-height: inherit;
+  }
+  
+  .terminal-cursor {
+    @apply animate-pulse;
+    font-weight: bold;
+  }
+  
+  .terminal-output {
+    @apply whitespace-pre-wrap;
+    font-family: inherit;
+  }
+  
+  .terminal-error {
+    @apply whitespace-pre-wrap;
+    color: #ff4444;
+    font-family: inherit;
+  }
+  
+  /* Matrix Theme */
+  .terminal-matrix {
+    background: #000000;
+    color: #00ff00;
+  }
+  
+  .terminal-matrix .terminal-prompt {
+    color: #00cc00;
+  }
+  
+  .terminal-matrix .terminal-cursor {
+    color: #00ff00;
+  }
+  
+  /* Amber Theme */
+  .terminal-amber {
+    background: #1a0f00;
+    color: #ffb000;
+  }
+  
+  .terminal-amber .terminal-prompt {
+    color: #ff9500;
+  }
+  
+  .terminal-amber .terminal-cursor {
+    color: #ffb000;
+  }
 }
