@@ -5,6 +5,15 @@ All notable changes to HackLib will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.4.0] - 2025-10-22
+
+### Added
+- Configurable PR target branch via NEXT_PUBLIC_GH_PR_BRANCH environment variable
+- Default branch configuration in env.example
+
+### Changed
+- PR creation now uses configurable branch instead of hardcoded 'main'
+
 ## [1.3.1] - 2025-10-22
 
 ### Fixed

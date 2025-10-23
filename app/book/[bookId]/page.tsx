@@ -27,6 +27,7 @@ export default async function BookPage({ params }: { params: Promise<{ bookId: s
   // Prepare loan request data
   const org = process.env.NEXT_PUBLIC_GH_ORG!;
   const repo = process.env.NEXT_PUBLIC_GH_REPO!;
+  const branch = process.env.NEXT_PUBLIC_GH_PR_BRANCH || 'main';
   const borrower = currentUsername || process.env.NEXT_PUBLIC_DEFAULT_BORROWER || "your-github";
   const requestedAt = new Date().toISOString().slice(0, 10);
   const until = new Date(Date.now() + 1000 * 60 * 60 * 24 * 21).toISOString().slice(0, 10); // +21d
@@ -37,7 +38,8 @@ export default async function BookPage({ params }: { params: Promise<{ bookId: s
   if (book) {
     createUrl = buildCreateLoanURL({
       org, 
-      repo, 
+      repo,
+      branch,
       year,
       owner: book.owner,
       bookId: book.id,

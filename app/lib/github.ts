@@ -1,7 +1,7 @@
 export function buildCreateLoanURL(opts: {
   org: string; 
   repo: string; 
-  branch?: string;
+  branch: string;
   year: string; 
   owner: string;
   bookId: string; 
@@ -9,7 +9,6 @@ export function buildCreateLoanURL(opts: {
   requestedAt: string; 
   until: string;
 }) {
-  const branch = opts.branch ?? 'main';
   const loanId = `${opts.year}-${opts.requestedAt.replace(/-/g, '')}-${opts.bookId}--${opts.borrower}`;
   const filename = `${opts.requestedAt.replace(/-/g, '')}-0000--${opts.bookId}--${opts.borrower}.yaml`;
 
@@ -28,7 +27,7 @@ export function buildCreateLoanURL(opts: {
     ``
   ].join('\\n');
 
-  const base = `https://github.com/${opts.org}/${opts.repo}/new/${branch}/data/loans/${opts.year}/${opts.owner}`;
+  const base = `https://github.com/${opts.org}/${opts.repo}/new/${opts.branch}/data/loans/${opts.year}/${opts.owner}`;
   const params = new URLSearchParams({ filename, value });
 
   return `${base}?${params.toString()}`;
