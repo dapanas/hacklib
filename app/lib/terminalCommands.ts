@@ -52,9 +52,10 @@ async function handleLs(args: string[], context: CommandContext): Promise<string
     const now = new Date()
     const dateStr = now.toLocaleDateString('en-US', { month: 'short', day: '2-digit' })
     const timeStr = now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: false })
-    return `total 2
+    return `total 3
 drwxr-xr-x  2 hacklib hacklib 4096 ${dateStr} ${timeStr} books
 drwxr-xr-x  2 hacklib hacklib 4096 ${dateStr} ${timeStr} boardgames
+drwxr-xr-x  2 hacklib hacklib 4096 ${dateStr} ${timeStr} videogames
 `
   }
   
@@ -114,6 +115,34 @@ drwxr-xr-x  2 hacklib hacklib 4096 ${dateStr} ${timeStr} boardgames
     }
   }
   
+  if (path === '/videogames' || path === 'videogames') {
+    try {
+      const response = await fetch('/api/terminal/videogames')
+      const videoGames = await response.json()
+      
+      if (!videoGames || videoGames.length === 0) {
+        return 'No video games found in the library.'
+      }
+      
+      const now = new Date()
+      const dateStr = now.toLocaleDateString('en-US', { month: 'short', day: '2-digit' })
+      const timeStr = now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: false })
+      
+      let output = `total ${videoGames.length}\n`
+      output += `drwxr-xr-x  2 hacklib hacklib 4096 ${dateStr} ${timeStr} .\n`
+      output += `drwxr-xr-x  2 hacklib hacklib 4096 ${dateStr} ${timeStr} ..\n`
+      
+      videoGames.forEach((videoGame: any) => {
+        const status = videoGame.availability?.available ? 'AVAILABLE' : 'BORROWED'
+        output += `-rw-r--r--  1 ${videoGame.owner} hacklib 1024 ${dateStr} ${timeStr} ${videoGame.id} [${status}]\n`
+      })
+      
+      return output
+    } catch (error) {
+      return `Error loading video games: ${error instanceof Error ? error.message : 'Unknown error'}`
+    }
+  }
+  
   return `ls: cannot access '${path}': No such file or directory`
 }
 
@@ -135,6 +164,11 @@ function handleCd(args: string[], context: CommandContext): string {
     return ''
   }
   
+  if (path === 'videogames' || path === '/videogames') {
+    context.setCurrentPath('/videogames')
+    return ''
+  }
+  
   if (path.startsWith('/book/') || path.startsWith('book/')) {
     const bookId = path.replace(/^\/?book\//, '')
     context.setCurrentPath(`/book/${bookId}`)
@@ -144,6 +178,12 @@ function handleCd(args: string[], context: CommandContext): string {
   if (path.startsWith('/boardgame/') || path.startsWith('boardgame/')) {
     const boardGameId = path.replace(/^\/?boardgame\//, '')
     context.setCurrentPath(`/boardgame/${boardGameId}`)
+    return ''
+  }
+  
+  if (path.startsWith('/videogame/') || path.startsWith('videogame/')) {
+    const videoGameId = path.replace(/^\/?videogame\//, '')
+    context.setCurrentPath(`/videogame/${videoGameId}`)
     return ''
   }
   
@@ -222,6 +262,46 @@ async function handleCat(args: string[], context: CommandContext): Promise<strin
       return output
     }
     
+    // Try video game
+    response = await fetch(`/api/terminal/videogame/${encodeURIComponent(itemId)}`)
+    if (response.ok) {
+      const videoGame = await response.json()
+      
+      let output = `=== ${videoGame.title} ===\n`
+      output += `Platform: ${Array.isArray(videoGame.platform) ? videoGame.platform.join(', ') : videoGame.platform}\n`
+      output += `Owner: ${videoGame.owner}\n`
+      output += `Status: ${videoGame.availability?.available ? 'AVAILABLE' : 'BORROWED'}\n`
+      
+      if (videoGame.year) {
+        output += `Year: ${videoGame.year}\n`
+      }
+      
+      if (videoGame.players) {
+        output += `Players: ${videoGame.players}\n`
+      }
+      
+      if (videoGame.genre && videoGame.genre.length > 0) {
+        output += `Genres: ${videoGame.genre.join(', ')}\n`
+      }
+      
+      if (videoGame.tags && videoGame.tags.length > 0) {
+        output += `Tags: ${videoGame.tags.join(', ')}\n`
+      }
+      
+      if (videoGame.notes) {
+        output += `\nNotes:\n${videoGame.notes}\n`
+      }
+      
+      if (!videoGame.availability?.available && videoGame.availability?.borrower) {
+        output += `\nCurrently borrowed by: ${videoGame.availability.borrower}\n`
+        if (videoGame.availability.until) {
+          output += `Due: ${videoGame.availability.until}\n`
+        }
+      }
+      
+      return output
+    }
+    
     return `cat: ${itemId}: No such file or directory`
   } catch (error) {
     return `cat: ${itemId}: ${error instanceof Error ? error.message : 'Unknown error'}`
@@ -250,6 +330,13 @@ async function handleBorrow(args: string[], context: CommandContext): Promise<st
       if (response.ok) {
         item = await response.json()
         itemType = 'boardgame'
+      } else {
+        // Try video game
+        response = await fetch(`/api/terminal/videogame/${encodeURIComponent(itemId)}`)
+        if (response.ok) {
+          item = await response.json()
+          itemType = 'videogame'
+        }
       }
     }
     
@@ -258,7 +345,8 @@ async function handleBorrow(args: string[], context: CommandContext): Promise<st
     }
     
     if (!item.availability?.available) {
-      return `borrow: ${itemId}: ${itemType === 'book' ? 'Book' : 'Board game'} is not available for loan`
+      const itemTypeName = itemType === 'book' ? 'Book' : itemType === 'boardgame' ? 'Board game' : 'Video game';
+      return `borrow: ${itemId}: ${itemTypeName} is not available for loan`
     }
     
     const org = process.env.NEXT_PUBLIC_GH_ORG || 'your-org'

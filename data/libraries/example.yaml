@@ -49,3 +49,40 @@ boardgames:
     complete: true
     tags: [cooperative, strategy, family]
     notes: "Juego cooperativo perfecto para jugar en equipo"
+
+videogames:
+  - id: example--zelda-botw
+    title: "The Legend of Zelda: Breath of the Wild"
+    platform: "Nintendo Switch"
+    genre: [adventure, action, open-world]
+    year: 2017
+    players: "1"
+    multiplayer: false
+    condition: "very-good"
+    includes: [game, case]
+    tags: [nintendo, rpg, open-world]
+    notes: "Incluye Season Pass DLC"
+  
+  - id: example--mario-kart-8
+    title: "Mario Kart 8 Deluxe"
+    platform: "Nintendo Switch"
+    genre: [racing, party]
+    year: 2017
+    players: "1-4"
+    multiplayer: true
+    condition: "mint"
+    includes: [game, case, manual]
+    tags: [nintendo, racing, party]
+    notes: "Perfecto para jugar con amigos"
+  
+  - id: example--cyberpunk-2077
+    title: "Cyberpunk 2077"
+    platform: ["PC (Windows)", "PlayStation 5", "Xbox Series X|S"]
+    genre: [rpg, action, sci-fi]
+    year: 2020
+    players: "1"
+    multiplayer: false
+    condition: "good"
+    includes: [game, case]
+    tags: [rpg, cyberpunk, open-world]
+    notes: "Versión actualizada con todos los parches"

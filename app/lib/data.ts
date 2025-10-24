@@ -70,6 +70,20 @@ export async function getBoardGameById(id: string) {
   return found;
 }
 
+export async function getAllVideoGames() {
+  const libs = await getAllLibraries();
+  return libs.flatMap((lib: any) => 
+    (lib.videogames || []).map((vg: any) => ({ ...vg, owner: lib.owner }))
+  );
+}
+
+export async function getVideoGameById(id: string) {
+  const videoGames = await getAllVideoGames();
+  const found = videoGames.find(vg => vg.id === id);
+  if (!found) throw new Error("Video game not found");
+  return found;
+}
+
 export async function getAllLoans() {
   const base = path.join(process.cwd(), "data/loans");
   const years = await fs.readdir(base).catch(() => []);
