@@ -22,7 +22,11 @@ export default async function MyLoansPage() {
   const electronicsMap = new Map(electronics.map(el => [el.id, { ...el, type: 'electronics' as ItemType }]));
   
   // Combine all item maps
-  const allItemsMap = new Map([...bookMap, ...boardGameMap, ...videoGameMap, ...electronicsMap]);
+  const allItemsMap = new Map();
+  bookMap.forEach((value, key) => allItemsMap.set(key, value));
+  boardGameMap.forEach((value, key) => allItemsMap.set(key, value));
+  videoGameMap.forEach((value, key) => allItemsMap.set(key, value));
+  electronicsMap.forEach((value, key) => allItemsMap.set(key, value));
   
   // Filter loans for the current user
   const currentUser = currentUsername || process.env.NEXT_PUBLIC_DEFAULT_BORROWER || "your-github";

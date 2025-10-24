@@ -5,6 +5,12 @@ All notable changes to HackLib will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.6.1] - 2025-10-24
+
+### Fixed
+- TypeScript Map iteration error in my-loans page causing build failures
+- Replaced Map spread operator with explicit forEach loops for better compatibility
+
 ## [1.6.0] - 2025-10-24
 
 ### Added
