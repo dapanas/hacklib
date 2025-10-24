@@ -1,3 +1,4 @@
+import { Users, Puzzle, Clock } from 'lucide-react';
 import StatusBadge from './StatusBadge';
 import Nickname from './Nickname';
 
@@ -65,12 +66,12 @@ export default function BoardGameCard({ boardGame, availability, onRequestLoan }
         <div className="space-y-2 mb-4">
           <div className="flex items-center gap-4 text-sm text-gray-600">
             <span className="flex items-center gap-1">
-              <span className="w-4 h-4 text-amber-500">👥</span>
+              <Users className="w-4 h-4 text-amber-500" />
               {playerCount} players
             </span>
             {boardGame.duration_minutes && (
               <span className="flex items-center gap-1">
-                <span className="w-4 h-4 text-amber-500">⏱️</span>
+                <Clock className="w-4 h-4 text-amber-500" />
                 {formatDuration(boardGame.duration_minutes)}
               </span>
             )}
@@ -78,7 +79,7 @@ export default function BoardGameCard({ boardGame, availability, onRequestLoan }
           
           {boardGame.complexity && (
             <div className="flex items-center gap-1 text-sm">
-              <span className="w-4 h-4 text-amber-500">🧩</span>
+              <Puzzle className="w-4 h-4 text-amber-500" />
               <span className="capitalize text-gray-600">{boardGame.complexity} complexity</span>
             </div>
           )}

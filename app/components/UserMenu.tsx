@@ -2,6 +2,7 @@
 
 import { signOut } from "next-auth/react"
 import { useState } from "react"
+import { ChevronDown } from "lucide-react"
 import Nickname from "./Nickname"
 
 interface UserMenuProps {
@@ -37,9 +38,7 @@ export default function UserMenu({ user }: UserMenuProps) {
         <span className="text-sm font-medium text-gray-700 hidden sm:block">
           {user.name || user.username}
         </span>
-        <div className="w-4 h-4 flex items-center justify-center">
-          <div className={`w-2 h-2 border border-gray-400 rounded-sm transition-transform duration-200 ${isOpen ? 'rotate-45' : ''}`}></div>
-        </div>
+        <ChevronDown className={`w-4 h-4 text-gray-500 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`} />
       </button>
 
       {isOpen && (

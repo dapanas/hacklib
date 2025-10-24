@@ -1,5 +1,6 @@
 'use client'
 import { useState } from 'react'
+import { Library, Menu, X } from 'lucide-react'
 import AuthSection from './AuthSection'
 
 export default function Header() {
@@ -21,7 +22,7 @@ export default function Header() {
           <h1 className="text-2xl font-bold text-gray-900">
             <a href="/" className="hover:text-primary-600 transition-colors duration-200 flex items-center gap-2">
               <div className="w-6 h-6 bg-gradient-to-br from-primary-500 to-primary-600 rounded-sm flex items-center justify-center">
-                <div className="w-3 h-3 bg-white rounded-sm"></div>
+                <Library className="w-4 h-4 text-white" />
               </div>
               HackLib
             </a>
@@ -57,7 +58,7 @@ export default function Header() {
               href="/my-loans" 
               className="btn-ghost"
             >
-              My Loans
+              Loans
             </a>
             <AuthSection />
           </nav>
@@ -68,11 +69,11 @@ export default function Header() {
             onClick={toggleMobileMenu}
             aria-label="Toggle mobile menu"
           >
-            <div className="w-6 h-6 flex flex-col justify-center items-center">
-              <span className={`block w-5 h-0.5 bg-gray-700 transition-all duration-300 ease-in-out ${mobileMenuOpen ? 'rotate-45 translate-y-1.5' : ''}`}></span>
-              <span className={`block w-5 h-0.5 bg-gray-700 transition-all duration-300 ease-in-out mt-1 ${mobileMenuOpen ? 'opacity-0 scale-0' : ''}`}></span>
-              <span className={`block w-5 h-0.5 bg-gray-700 transition-all duration-300 ease-in-out mt-1 ${mobileMenuOpen ? '-rotate-45 -translate-y-1.5' : ''}`}></span>
-            </div>
+            {mobileMenuOpen ? (
+              <X className="w-6 h-6 text-gray-700" />
+            ) : (
+              <Menu className="w-6 h-6 text-gray-700" />
+            )}
           </button>
         </div>
       </div>
@@ -142,7 +143,7 @@ export default function Header() {
               style={{ transitionDelay: mobileMenuOpen ? '200ms' : '0ms' }}
               onClick={closeMobileMenu}
             >
-              My Loans
+              Loans
             </a>
             <div className={`pt-4 border-t border-white/20 transition-all duration-300 ${
               mobileMenuOpen ? 'translate-x-0 opacity-100' : '-translate-x-4 opacity-0'

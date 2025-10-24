@@ -1,3 +1,4 @@
+import { Cpu, Building, Settings } from 'lucide-react';
 import StatusBadge from './StatusBadge';
 import Nickname from './Nickname';
 
@@ -56,20 +57,20 @@ export default function ElectronicsCard({ electronics, availability, onRequestLo
         {/* Component Info */}
         <div className="space-y-2 mb-4">
           <div className="flex items-center gap-1 text-sm text-gray-600">
-            <span className="w-4 h-4 text-cyan-500">🔌</span>
+            <Cpu className="w-4 h-4 text-cyan-500" />
             <span className="capitalize">{formatComponentType(electronics.component_type)}</span>
           </div>
           
           {electronics.manufacturer && (
             <div className="flex items-center gap-1 text-sm">
-              <span className="w-4 h-4 text-cyan-500">🏭</span>
+              <Building className="w-4 h-4 text-cyan-500" />
               <span className="text-gray-600">{electronics.manufacturer}</span>
             </div>
           )}
           
           {electronics.specs && electronics.specs.length > 0 && (
             <div className="flex items-center gap-1 text-sm">
-              <span className="w-4 h-4 text-cyan-500">⚙️</span>
+              <Settings className="w-4 h-4 text-cyan-500" />
               <span className="text-gray-600 line-clamp-1">
                 {electronics.specs.slice(0, 2).join(', ')}
                 {electronics.specs.length > 2 && ` +${electronics.specs.length - 2} more`}

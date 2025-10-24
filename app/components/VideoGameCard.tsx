@@ -1,3 +1,4 @@
+import { Users, Calendar, Gamepad2 } from 'lucide-react';
 import StatusBadge from './StatusBadge';
 import Nickname from './Nickname';
 
@@ -60,20 +61,20 @@ export default function VideoGameCard({ videoGame, availability, onRequestLoan }
         {/* Game Info */}
         <div className="space-y-2 mb-4">
           <div className="flex items-center gap-1 text-sm text-gray-600">
-            <span className="w-4 h-4 text-purple-500">🎮</span>
+            <Gamepad2 className="w-4 h-4 text-purple-500" />
             <span className="line-clamp-1">{formatPlatform(videoGame.platform)}</span>
           </div>
           
           {videoGame.year && (
             <div className="flex items-center gap-1 text-sm">
-              <span className="w-4 h-4 text-purple-500">📅</span>
+              <Calendar className="w-4 h-4 text-purple-500" />
               <span className="text-gray-600">{videoGame.year}</span>
             </div>
           )}
           
           {videoGame.players && (
             <div className="flex items-center gap-1 text-sm">
-              <span className="w-4 h-4 text-purple-500">👥</span>
+              <Users className="w-4 h-4 text-purple-500" />
               <span className="text-gray-600">{videoGame.players} players</span>
             </div>
           )}
