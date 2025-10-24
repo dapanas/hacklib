@@ -1,0 +1,156 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "required": ["owner", "videogames"],
+  "properties": {
+    "owner": {
+      "type": "string",
+      "description": "GitHub handle of the library owner"
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date",
+      "description": "Last update date in YYYY-MM-DD format"
+    },
+    "videogames": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "title", "platform"],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Unique identifier for the video game"
+          },
+          "title": {
+            "type": "string",
+            "description": "Video game title"
+          },
+          "platform": {
+            "oneOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "Nintendo Switch",
+                  "Nintendo 3DS",
+                  "Nintendo Wii U",
+                  "Nintendo Wii",
+                  "Nintendo DS",
+                  "Game Boy Advance",
+                  "PlayStation 5",
+                  "PlayStation 4",
+                  "PlayStation 3",
+                  "PlayStation 2",
+                  "PlayStation 1",
+                  "PlayStation Vita",
+                  "PSP",
+                  "Xbox Series X|S",
+                  "Xbox One",
+                  "Xbox 360",
+                  "Xbox",
+                  "PC (Windows)",
+                  "PC (Mac)",
+                  "PC (Linux)",
+                  "iOS",
+                  "Android",
+                  "SNES",
+                  "NES",
+                  "Sega Genesis",
+                  "Sega Dreamcast",
+                  "Atari",
+                  "Other"
+                ]
+              },
+              {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "enum": [
+                    "Nintendo Switch",
+                    "Nintendo 3DS",
+                    "Nintendo Wii U",
+                    "Nintendo Wii",
+                    "Nintendo DS",
+                    "Game Boy Advance",
+                    "PlayStation 5",
+                    "PlayStation 4",
+                    "PlayStation 3",
+                    "PlayStation 2",
+                    "PlayStation 1",
+                    "PlayStation Vita",
+                    "PSP",
+                    "Xbox Series X|S",
+                    "Xbox One",
+                    "Xbox 360",
+                    "Xbox",
+                    "PC (Windows)",
+                    "PC (Mac)",
+                    "PC (Linux)",
+                    "iOS",
+                    "Android",
+                    "SNES",
+                    "NES",
+                    "Sega Genesis",
+                    "Sega Dreamcast",
+                    "Atari",
+                    "Other"
+                  ]
+                },
+                "minItems": 1,
+                "uniqueItems": true
+              }
+            ],
+            "description": "Platform(s) the game runs on"
+          },
+          "genre": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Game genres (adventure, action, etc.)"
+          },
+          "year": {
+            "type": "integer",
+            "minimum": 1970,
+            "maximum": 2030,
+            "description": "Release year"
+          },
+          "players": {
+            "type": "string",
+            "description": "Number of players (e.g., '1', '1-2', '1-4')"
+          },
+          "multiplayer": {
+            "type": "boolean",
+            "description": "Whether the game supports multiplayer"
+          },
+          "condition": {
+            "type": "string",
+            "enum": ["mint", "very-good", "good", "fair", "poor"],
+            "description": "Physical condition of the game"
+          },
+          "includes": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": ["game", "case", "manual", "box", "controller", "cables"]
+            },
+            "description": "What's included with the game"
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Tags for categorization"
+          },
+          "notes": {
+            "type": "string",
+            "description": "Additional notes about the game"
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}

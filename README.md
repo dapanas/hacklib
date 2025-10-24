@@ -1,6 +1,6 @@
-# HackLib — Modern Book Lending System
+# HackLib — Modern Lending System
 
-A low-ops book lending system where **GitHub is the database**, **YAML is the state**, and **PRs are the workflow**. Features GitHub OAuth authentication, glass-morphism UI, and automated validation. Deployed on **Vercel** with **Next.js 15**.
+A low-ops lending system where **GitHub is the database**, **YAML is the state**, and **PRs are the workflow**. Features GitHub OAuth authentication, glass-morphism UI, and automated validation. Deployed on **Vercel** with **Next.js 15**.
 
 ## Quickstart
 
@@ -8,7 +8,7 @@ A low-ops book lending system where **GitHub is the database**, **YAML is the st
 2. Run `npm install`
 3. Run `npm run dev` → open http://localhost:3000
 4. Sign in with GitHub to access personalized features
-5. Browse books at `/books` and request loans
+5. Browse items by category and request loans
 6. See [SETUP.md](./SETUP.md) for GitHub OAuth configuration
 
 ## Environment Variables
@@ -35,23 +35,23 @@ See [SETUP.md](./SETUP.md) for detailed configuration instructions.
 ### Authentication
 - Sign in with your GitHub account
 - Your username is automatically used in loan requests
-- View your personal loan history at `/my-loans`
+- View all loans at `/my-loans`
 
 ### Requesting a Loan
 
-1. Browse books at `/books`
-2. Click on a book to view details
+1. Browse items by category (books, board games, video games, electronics)
+2. Click on an item to view details
 3. Click "Request Loan" button (requires GitHub sign-in)
 4. This opens GitHub with a pre-filled YAML file using your username
 5. Create a Pull Request
-6. The book owner will review and approve/reject
+6. The item owner will review and approve/reject
 7. Once approved, the loan status updates automatically
 
-### How to Add Your Books
+### How to Add Your Items
 
 1. Create a new file: `data/libraries/your-github-handle.yaml`
 2. Follow the schema in `schemas/library.schema.json`
-3. Add your books with unique IDs
+3. Add your items (books, board games, video games, electronics) with unique IDs
 4. Create a PR to add your library
 
 ## Project Structure
@@ -62,9 +62,12 @@ See [SETUP.md](./SETUP.md) for detailed configuration instructions.
 │   ├── api/               # API routes (auth, revalidate)
 │   ├── book/              # Book detail pages
 │   ├── books/             # Books catalog page
+│   ├── boardgames/        # Board games catalog page
+│   ├── videogames/        # Video games catalog page
+│   ├── electronics/       # Electronics catalog page
 │   ├── components/        # React components
 │   ├── lib/               # Data access and utilities
-│   ├── my-loans/          # User loan history
+│   ├── my-loans/          # All loans page
 │   ├── globals.css        # Global styles
 │   ├── layout.tsx         # Root layout
 │   └── page.tsx           # Homepage
@@ -97,9 +100,9 @@ npm run build
 ## Features
 
 - 🔐 **GitHub OAuth**: Sign in with your GitHub account
-- 📚 **Book Catalog**: Browse all available books with modern UI
+- 📚 **Multi-Type Catalog**: Browse books, board games, video games, and electronics
 - 🔄 **Loan Management**: Request and track loans via GitHub PRs
-- 👤 **Personalization**: View your loan history and auto-populated requests
+- 👤 **Personalization**: View all loans and auto-populated requests
 - ✅ **Validation**: Automatic schema validation via CI
 - 👥 **Community**: Each member manages their own library
 - 🎨 **Modern Design**: Glass-morphism UI with Tailwind CSS

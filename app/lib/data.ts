@@ -56,6 +56,48 @@ export async function getBookById(id: string) {
   return found;
 }
 
+export async function getAllBoardGames() {
+  const libs = await getAllLibraries();
+  return libs.flatMap((lib: any) => 
+    (lib.boardgames || []).map((bg: any) => ({ ...bg, owner: lib.owner }))
+  );
+}
+
+export async function getBoardGameById(id: string) {
+  const boardGames = await getAllBoardGames();
+  const found = boardGames.find(bg => bg.id === id);
+  if (!found) throw new Error("Board game not found");
+  return found;
+}
+
+export async function getAllVideoGames() {
+  const libs = await getAllLibraries();
+  return libs.flatMap((lib: any) => 
+    (lib.videogames || []).map((vg: any) => ({ ...vg, owner: lib.owner }))
+  );
+}
+
+export async function getVideoGameById(id: string) {
+  const videoGames = await getAllVideoGames();
+  const found = videoGames.find(vg => vg.id === id);
+  if (!found) throw new Error("Video game not found");
+  return found;
+}
+
+export async function getAllElectronics() {
+  const libs = await getAllLibraries();
+  return libs.flatMap((lib: any) => 
+    (lib.electronics || []).map((el: any) => ({ ...el, owner: lib.owner }))
+  );
+}
+
+export async function getElectronicsById(id: string) {
+  const electronics = await getAllElectronics();
+  const found = electronics.find(el => el.id === id);
+  if (!found) throw new Error("Electronics not found");
+  return found;
+}
+
 export async function getAllLoans() {
   const base = path.join(process.cwd(), "data/loans");
   const years = await fs.readdir(base).catch(() => []);

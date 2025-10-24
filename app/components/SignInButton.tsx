@@ -1,6 +1,7 @@
 'use client'
 
 import { signIn } from "next-auth/react"
+import { Github } from "lucide-react"
 
 export default function SignInButton() {
   return (
@@ -8,9 +9,7 @@ export default function SignInButton() {
       onClick={() => signIn('github')}
       className="btn-primary flex items-center gap-2"
     >
-      <div className="w-4 h-4 bg-white rounded-sm flex items-center justify-center">
-        <div className="w-2 h-2 bg-gray-800 rounded-sm"></div>
-      </div>
+      <Github className="w-4 h-4" />
       Sign in with GitHub
     </button>
   )

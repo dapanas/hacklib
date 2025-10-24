@@ -19,7 +19,13 @@ const vLibrary = ajv.compile(await loadSchema('library.schema.json'));
 const vLoan = ajv.compile(await loadSchema('loan.schema.json'));
 
 const bookIndex = new Map();   // book_id -> owner
+const boardGameIndex = new Map();   // boardgame_id -> owner
+const videoGameIndex = new Map();   // videogame_id -> owner
+const electronicsIndex = new Map();   // electronics_id -> owner
 const activeByBook = new Map();
+const activeByBoardGame = new Map();
+const activeByVideoGame = new Map();
+const activeByElectronics = new Map();
 const active = new Set(['requested', 'approved', 'ongoing']);
 
 function die(msg) { 
@@ -31,9 +37,29 @@ function die(msg) {
 for (const file of await glob('data/libraries/*.yaml')) {
   const doc = yaml.load(await fs.readFile(file, 'utf8'));
   if (!vLibrary(doc)) die(`Schema error in ${file}: ${ajv.errorsText(vLibrary.errors)}`);
+  
+  // Index books
   for (const b of doc.books || []) {
     if (bookIndex.has(b.id)) die(`Duplicate book_id: ${b.id}`);
     bookIndex.set(b.id, doc.owner);
+  }
+  
+  // Index board games
+  for (const bg of doc.boardgames || []) {
+    if (boardGameIndex.has(bg.id)) die(`Duplicate boardgame_id: ${bg.id}`);
+    boardGameIndex.set(bg.id, doc.owner);
+  }
+  
+  // Index video games
+  for (const vg of doc.videogames || []) {
+    if (videoGameIndex.has(vg.id)) die(`Duplicate videogame_id: ${vg.id}`);
+    videoGameIndex.set(vg.id, doc.owner);
+  }
+  
+  // Index electronics
+  for (const el of doc.electronics || []) {
+    if (electronicsIndex.has(el.id)) die(`Duplicate electronics_id: ${el.id}`);
+    electronicsIndex.set(el.id, doc.owner);
   }
 }
 
@@ -49,14 +75,47 @@ for (const file of await glob('data/loans/*/*/*.yaml')) {
   if (loan.owner !== folderOwner) die(`Owner mismatch: ${file}`);
   if (!loan.requested_at?.startsWith(year)) die(`Year mismatch: ${file}`);
 
-  const realOwner = bookIndex.get(loan.book_id);
-  if (!realOwner) die(`Unknown book_id ${loan.book_id} in ${file}`);
-  if (realOwner !== loan.owner) die(`Book owner mismatch for ${loan.book_id} in ${file}`);
-
-  if (active.has(loan.status)) {
-    const c = activeByBook.get(loan.book_id) || 0;
-    if (c > 0) die(`Duplicate active loan for ${loan.book_id}`);
-    activeByBook.set(loan.book_id, c + 1);
+  // Validate item exists and owner matches
+  if (loan.item_type === 'book') {
+    const realOwner = bookIndex.get(loan.item_id);
+    if (!realOwner) die(`Unknown book_id ${loan.item_id} in ${file}`);
+    if (realOwner !== loan.owner) die(`Book owner mismatch for ${loan.item_id} in ${file}`);
+    
+    if (active.has(loan.status)) {
+      const c = activeByBook.get(loan.item_id) || 0;
+      if (c > 0) die(`Duplicate active loan for book ${loan.item_id}`);
+      activeByBook.set(loan.item_id, c + 1);
+    }
+  } else if (loan.item_type === 'boardgame') {
+    const realOwner = boardGameIndex.get(loan.item_id);
+    if (!realOwner) die(`Unknown boardgame_id ${loan.item_id} in ${file}`);
+    if (realOwner !== loan.owner) die(`Board game owner mismatch for ${loan.item_id} in ${file}`);
+    
+    if (active.has(loan.status)) {
+      const c = activeByBoardGame.get(loan.item_id) || 0;
+      if (c > 0) die(`Duplicate active loan for board game ${loan.item_id}`);
+      activeByBoardGame.set(loan.item_id, c + 1);
+    }
+  } else if (loan.item_type === 'videogame') {
+    const realOwner = videoGameIndex.get(loan.item_id);
+    if (!realOwner) die(`Unknown videogame_id ${loan.item_id} in ${file}`);
+    if (realOwner !== loan.owner) die(`Video game owner mismatch for ${loan.item_id} in ${file}`);
+    
+    if (active.has(loan.status)) {
+      const c = activeByVideoGame.get(loan.item_id) || 0;
+      if (c > 0) die(`Duplicate active loan for video game ${loan.item_id}`);
+      activeByVideoGame.set(loan.item_id, c + 1);
+    }
+  } else if (loan.item_type === 'electronics') {
+    const realOwner = electronicsIndex.get(loan.item_id);
+    if (!realOwner) die(`Unknown electronics_id ${loan.item_id} in ${file}`);
+    if (realOwner !== loan.owner) die(`Electronics owner mismatch for ${loan.item_id} in ${file}`);
+    
+    if (active.has(loan.status)) {
+      const c = activeByElectronics.get(loan.item_id) || 0;
+      if (c > 0) die(`Duplicate active loan for electronics ${loan.item_id}`);
+      activeByElectronics.set(loan.item_id, c + 1);
+    }
   }
 }
 

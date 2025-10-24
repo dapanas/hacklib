@@ -8,13 +8,17 @@ export function buildCreateLoanURL(opts: {
   borrower: string;
   requestedAt: string; 
   until: string;
+  itemType?: string;
 }) {
   const loanId = `${opts.year}-${opts.requestedAt.replace(/-/g, '')}-${opts.bookId}--${opts.borrower}`;
   const filename = `${opts.requestedAt.replace(/-/g, '')}-0000--${opts.bookId}--${opts.borrower}.yaml`;
 
+  const itemType = opts.itemType || 'book';
+  
   const value = [
     `loan_id: ${loanId}`,
-    `book_id: ${opts.bookId}`,
+    `item_id: ${opts.bookId}`,
+    `item_type: ${itemType}`,
     `owner: ${opts.owner}`,
     `borrower: ${opts.borrower}`,
     `status: requested`,

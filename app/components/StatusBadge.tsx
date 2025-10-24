@@ -1,3 +1,4 @@
+import { CheckCircle, XCircle, Clock, Check, RotateCcw, X, AlertTriangle } from 'lucide-react';
 import Nickname from './Nickname';
 
 interface StatusBadgeProps {
@@ -13,11 +14,7 @@ export default function StatusBadge({ status, borrower, until }: StatusBadgeProp
         return { 
           text: 'Available', 
           className: 'status-badge status-available',
-          icon: (
-            <div className="w-3 h-3 bg-success-600 rounded-full flex items-center justify-center">
-              <div className="w-1.5 h-1.5 bg-white rounded-full"></div>
-            </div>
-          )
+          icon: <CheckCircle className="w-3 h-3 text-success-600" />
         };
       case 'borrowed':
       case 'ongoing':
@@ -25,68 +22,44 @@ export default function StatusBadge({ status, borrower, until }: StatusBadgeProp
           text: `Borrowed by `, 
           borrower: borrower,
           className: 'status-badge status-borrowed',
-          icon: (
-            <div className="w-3 h-3 bg-danger-600 rounded-sm flex items-center justify-center">
-              <div className="w-1.5 h-1.5 bg-white rounded-sm"></div>
-            </div>
-          )
+          icon: <XCircle className="w-3 h-3 text-danger-600" />
         };
       case 'requested':
       case 'pending':
         return { 
           text: 'Pending approval', 
           className: 'status-badge status-pending',
-          icon: (
-            <div className="w-3 h-3 bg-warning-600 rounded-full animate-pulse"></div>
-          )
+          icon: <Clock className="w-3 h-3 text-warning-600 animate-pulse" />
         };
       case 'approved':
         return { 
           text: 'Approved', 
           className: 'status-badge status-available',
-          icon: (
-            <div className="w-3 h-3 bg-success-600 rounded-full flex items-center justify-center">
-              <div className="w-1.5 h-1.5 bg-white rounded-full"></div>
-            </div>
-          )
+          icon: <Check className="w-3 h-3 text-success-600" />
         };
       case 'returned':
         return { 
           text: 'Returned', 
           className: 'status-badge bg-gray-100 text-gray-800 border-gray-200',
-          icon: (
-            <div className="w-3 h-3 bg-gray-600 rounded-sm flex items-center justify-center">
-              <div className="w-1.5 h-1.5 bg-white rounded-sm"></div>
-            </div>
-          )
+          icon: <RotateCcw className="w-3 h-3 text-gray-600" />
         };
       case 'rejected':
         return { 
           text: 'Rejected', 
           className: 'status-badge bg-danger-50 text-danger-700 border-danger-200',
-          icon: (
-            <div className="w-3 h-3 bg-danger-600 rounded-sm flex items-center justify-center">
-              <div className="w-1.5 h-0.5 bg-white rounded-sm"></div>
-            </div>
-          )
+          icon: <X className="w-3 h-3 text-danger-600" />
         };
       case 'lost':
         return { 
           text: 'Lost', 
           className: 'status-badge bg-danger-100 text-danger-800 border-danger-300',
-          icon: (
-            <div className="w-3 h-3 bg-danger-600 rounded-sm flex items-center justify-center">
-              <div className="w-1.5 h-1.5 border border-white rounded-sm"></div>
-            </div>
-          )
+          icon: <AlertTriangle className="w-3 h-3 text-danger-600" />
         };
       default:
         return { 
           text: 'Unknown', 
           className: 'status-badge bg-gray-100 text-gray-800 border-gray-200',
-          icon: (
-            <div className="w-3 h-3 bg-gray-600 rounded-full"></div>
-          )
+          icon: <AlertTriangle className="w-3 h-3 text-gray-600" />
         };
     }
   };

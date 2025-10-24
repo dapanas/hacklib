@@ -5,6 +5,31 @@ All notable changes to HackLib will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.6.0] - 2025-10-24
+
+### Added
+- Multi-item lending support for board games, video games, and electronics
+- Board games catalog with player count, duration, and complexity display
+- Video games catalog with platform, year, and player information
+- Electronics catalog with component type, manufacturer, and specifications
+- Category showcase section on homepage with item counts
+- Lucide React icon library integration for consistent UI icons
+- Enhanced BookCard with author and tag icons for improved information display
+
+### Changed
+- Homepage redesigned to support multi-type lending system
+- Updated terminology from "book lending" to "lending system" for broader scope
+- "My Loans" renamed to "Loans" to reflect all loan types
+- Replaced abstract icons with semantic Lucide React icons throughout
+- Enhanced card components with structured information display
+- Updated README.md to reflect multi-type system capabilities
+
+### Technical
+- Added lucide-react dependency for professional icon system
+- Created unified library schema supporting multiple item types
+- Implemented consistent card design patterns across all item types
+- Enhanced type safety with proper item type configurations
+
 ## [1.5.0] - 2025-10-23
 
 ### Added

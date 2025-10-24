@@ -1,15 +1,20 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "type": "object",
-  "required": ["loan_id", "book_id", "owner", "borrower", "status", "requested_at", "until"],
+  "required": ["loan_id", "item_id", "item_type", "owner", "borrower", "status", "requested_at", "until"],
   "properties": {
     "loan_id": {
       "type": "string",
       "description": "Unique identifier for the loan"
     },
-    "book_id": {
+    "item_id": {
       "type": "string",
-      "description": "ID of the book being loaned"
+      "description": "ID of the item being loaned"
+    },
+    "item_type": {
+      "type": "string",
+      "enum": ["book", "videogame", "boardgame", "electronics"],
+      "description": "Type of item being loaned"
     },
     "owner": {
       "type": "string",
