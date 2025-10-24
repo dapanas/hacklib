@@ -33,7 +33,7 @@ export default function Header() {
               href="/books" 
               className="btn-ghost"
             >
-              Browse Books
+              Books 📚
             </a>
             <a 
               href="/boardgames" 
@@ -102,7 +102,7 @@ export default function Header() {
               style={{ transitionDelay: mobileMenuOpen ? '100ms' : '0ms' }}
               onClick={closeMobileMenu}
             >
-              Browse Books
+              Books 📚
             </a>
             <a 
               href="/boardgames" 

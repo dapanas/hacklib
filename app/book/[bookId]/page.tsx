@@ -45,14 +45,15 @@ export default async function BookPage({ params }: { params: Promise<{ bookId: s
       bookId: book.id,
       borrower,
       requestedAt,
-      until
+      until,
+      itemType: 'book'
     });
   }
 
   if (error) {
     return (
       <div className="py-8">
-        <div className="max-w-6xl mx-auto">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center py-20">
             <div className="glass-card p-12 max-w-md mx-auto">
               <div className="w-20 h-20 mx-auto mb-6 flex items-center justify-center">
