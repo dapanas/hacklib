@@ -56,6 +56,20 @@ export async function getBookById(id: string) {
   return found;
 }
 
+export async function getAllBoardGames() {
+  const libs = await getAllLibraries();
+  return libs.flatMap((lib: any) => 
+    (lib.boardgames || []).map((bg: any) => ({ ...bg, owner: lib.owner }))
+  );
+}
+
+export async function getBoardGameById(id: string) {
+  const boardGames = await getAllBoardGames();
+  const found = boardGames.find(bg => bg.id === id);
+  if (!found) throw new Error("Board game not found");
+  return found;
+}
+
 export async function getAllLoans() {
   const base = path.join(process.cwd(), "data/loans");
   const years = await fs.readdir(base).catch(() => []);

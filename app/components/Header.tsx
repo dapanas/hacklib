@@ -36,6 +36,12 @@ export default function Header() {
               Browse Books
             </a>
             <a 
+              href="/boardgames" 
+              className="btn-ghost"
+            >
+              Board Games 🎲
+            </a>
+            <a 
               href="/my-loans" 
               className="btn-ghost"
             >
@@ -85,6 +91,16 @@ export default function Header() {
               onClick={closeMobileMenu}
             >
               Browse Books
+            </a>
+            <a 
+              href="/boardgames" 
+              className={`block py-3 px-4 rounded-lg hover:bg-white/20 transition-all duration-300 text-gray-900 font-medium transform hover:translate-x-1 ${
+                mobileMenuOpen ? 'translate-x-0 opacity-100' : '-translate-x-4 opacity-0'
+              }`}
+              style={{ transitionDelay: mobileMenuOpen ? '125ms' : '0ms' }}
+              onClick={closeMobileMenu}
+            >
+              Board Games 🎲
             </a>
             <a 
               href="/my-loans" 

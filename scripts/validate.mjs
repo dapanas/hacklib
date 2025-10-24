@@ -19,7 +19,9 @@ const vLibrary = ajv.compile(await loadSchema('library.schema.json'));
 const vLoan = ajv.compile(await loadSchema('loan.schema.json'));
 
 const bookIndex = new Map();   // book_id -> owner
+const boardGameIndex = new Map();   // boardgame_id -> owner
 const activeByBook = new Map();
+const activeByBoardGame = new Map();
 const active = new Set(['requested', 'approved', 'ongoing']);
 
 function die(msg) { 
@@ -31,9 +33,17 @@ function die(msg) {
 for (const file of await glob('data/libraries/*.yaml')) {
   const doc = yaml.load(await fs.readFile(file, 'utf8'));
   if (!vLibrary(doc)) die(`Schema error in ${file}: ${ajv.errorsText(vLibrary.errors)}`);
+  
+  // Index books
   for (const b of doc.books || []) {
     if (bookIndex.has(b.id)) die(`Duplicate book_id: ${b.id}`);
     bookIndex.set(b.id, doc.owner);
+  }
+  
+  // Index board games
+  for (const bg of doc.boardgames || []) {
+    if (boardGameIndex.has(bg.id)) die(`Duplicate boardgame_id: ${bg.id}`);
+    boardGameIndex.set(bg.id, doc.owner);
   }
 }
 
@@ -49,14 +59,27 @@ for (const file of await glob('data/loans/*/*/*.yaml')) {
   if (loan.owner !== folderOwner) die(`Owner mismatch: ${file}`);
   if (!loan.requested_at?.startsWith(year)) die(`Year mismatch: ${file}`);
 
-  const realOwner = bookIndex.get(loan.book_id);
-  if (!realOwner) die(`Unknown book_id ${loan.book_id} in ${file}`);
-  if (realOwner !== loan.owner) die(`Book owner mismatch for ${loan.book_id} in ${file}`);
-
-  if (active.has(loan.status)) {
-    const c = activeByBook.get(loan.book_id) || 0;
-    if (c > 0) die(`Duplicate active loan for ${loan.book_id}`);
-    activeByBook.set(loan.book_id, c + 1);
+  // Validate item exists and owner matches
+  if (loan.item_type === 'book') {
+    const realOwner = bookIndex.get(loan.item_id);
+    if (!realOwner) die(`Unknown book_id ${loan.item_id} in ${file}`);
+    if (realOwner !== loan.owner) die(`Book owner mismatch for ${loan.item_id} in ${file}`);
+    
+    if (active.has(loan.status)) {
+      const c = activeByBook.get(loan.item_id) || 0;
+      if (c > 0) die(`Duplicate active loan for book ${loan.item_id}`);
+      activeByBook.set(loan.item_id, c + 1);
+    }
+  } else if (loan.item_type === 'boardgame') {
+    const realOwner = boardGameIndex.get(loan.item_id);
+    if (!realOwner) die(`Unknown boardgame_id ${loan.item_id} in ${file}`);
+    if (realOwner !== loan.owner) die(`Board game owner mismatch for ${loan.item_id} in ${file}`);
+    
+    if (active.has(loan.status)) {
+      const c = activeByBoardGame.get(loan.item_id) || 0;
+      if (c > 0) die(`Duplicate active loan for board game ${loan.item_id}`);
+      activeByBoardGame.set(loan.item_id, c + 1);
+    }
   }
 }
 

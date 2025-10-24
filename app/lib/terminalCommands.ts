@@ -52,8 +52,9 @@ async function handleLs(args: string[], context: CommandContext): Promise<string
     const now = new Date()
     const dateStr = now.toLocaleDateString('en-US', { month: 'short', day: '2-digit' })
     const timeStr = now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: false })
-    return `total 1
+    return `total 2
 drwxr-xr-x  2 hacklib hacklib 4096 ${dateStr} ${timeStr} books
+drwxr-xr-x  2 hacklib hacklib 4096 ${dateStr} ${timeStr} boardgames
 `
   }
   
@@ -85,6 +86,34 @@ drwxr-xr-x  2 hacklib hacklib 4096 ${dateStr} ${timeStr} books
     }
   }
   
+  if (path === '/boardgames' || path === 'boardgames') {
+    try {
+      const response = await fetch('/api/terminal/boardgames')
+      const boardGames = await response.json()
+      
+      if (!boardGames || boardGames.length === 0) {
+        return 'No board games found in the library.'
+      }
+      
+      const now = new Date()
+      const dateStr = now.toLocaleDateString('en-US', { month: 'short', day: '2-digit' })
+      const timeStr = now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: false })
+      
+      let output = `total ${boardGames.length}\n`
+      output += `drwxr-xr-x  2 hacklib hacklib 4096 ${dateStr} ${timeStr} .\n`
+      output += `drwxr-xr-x  2 hacklib hacklib 4096 ${dateStr} ${timeStr} ..\n`
+      
+      boardGames.forEach((boardGame: any) => {
+        const status = boardGame.availability?.available ? 'AVAILABLE' : 'BORROWED'
+        output += `-rw-r--r--  1 ${boardGame.owner} hacklib 1024 ${dateStr} ${timeStr} ${boardGame.id} [${status}]\n`
+      })
+      
+      return output
+    } catch (error) {
+      return `Error loading board games: ${error instanceof Error ? error.message : 'Unknown error'}`
+    }
+  }
+  
   return `ls: cannot access '${path}': No such file or directory`
 }
 
@@ -101,9 +130,20 @@ function handleCd(args: string[], context: CommandContext): string {
     return ''
   }
   
+  if (path === 'boardgames' || path === '/boardgames') {
+    context.setCurrentPath('/boardgames')
+    return ''
+  }
+  
   if (path.startsWith('/book/') || path.startsWith('book/')) {
     const bookId = path.replace(/^\/?book\//, '')
     context.setCurrentPath(`/book/${bookId}`)
+    return ''
+  }
+  
+  if (path.startsWith('/boardgame/') || path.startsWith('boardgame/')) {
+    const boardGameId = path.replace(/^\/?boardgame\//, '')
+    context.setCurrentPath(`/boardgame/${boardGameId}`)
     return ''
   }
   
@@ -115,60 +155,110 @@ async function handleCat(args: string[], context: CommandContext): Promise<strin
     return 'cat: missing file operand'
   }
   
-  const bookId = args[0]
+  const itemId = args[0]
   
   try {
-    const response = await fetch(`/api/terminal/book/${encodeURIComponent(bookId)}`)
-    if (!response.ok) {
-      return `cat: ${bookId}: No such file or directory`
-    }
-    
-    const book = await response.json()
-    
-    let output = `=== ${book.title} ===\n`
-    output += `Author(s): ${Array.isArray(book.authors) ? book.authors.join(', ') : book.authors}\n`
-    output += `Owner: ${book.owner}\n`
-    output += `Status: ${book.availability?.available ? 'AVAILABLE' : 'BORROWED'}\n`
-    
-    if (book.tags && book.tags.length > 0) {
-      output += `Tags: ${book.tags.join(', ')}\n`
-    }
-    
-    if (book.notes) {
-      output += `\nNotes:\n${book.notes}\n`
-    }
-    
-    if (!book.availability?.available && book.availability?.borrower) {
-      output += `\nCurrently borrowed by: ${book.availability.borrower}\n`
-      if (book.availability.until) {
-        output += `Due: ${book.availability.until}\n`
+    // Try book first
+    let response = await fetch(`/api/terminal/book/${encodeURIComponent(itemId)}`)
+    if (response.ok) {
+      const book = await response.json()
+      
+      let output = `=== ${book.title} ===\n`
+      output += `Author(s): ${Array.isArray(book.authors) ? book.authors.join(', ') : book.authors}\n`
+      output += `Owner: ${book.owner}\n`
+      output += `Status: ${book.availability?.available ? 'AVAILABLE' : 'BORROWED'}\n`
+      
+      if (book.tags && book.tags.length > 0) {
+        output += `Tags: ${book.tags.join(', ')}\n`
       }
+      
+      if (book.notes) {
+        output += `\nNotes:\n${book.notes}\n`
+      }
+      
+      if (!book.availability?.available && book.availability?.borrower) {
+        output += `\nCurrently borrowed by: ${book.availability.borrower}\n`
+        if (book.availability.until) {
+          output += `Due: ${book.availability.until}\n`
+        }
+      }
+      
+      return output
     }
     
-    return output
+    // Try board game
+    response = await fetch(`/api/terminal/boardgame/${encodeURIComponent(itemId)}`)
+    if (response.ok) {
+      const boardGame = await response.json()
+      
+      let output = `=== ${boardGame.title} ===\n`
+      output += `Players: ${boardGame.min_players}-${boardGame.max_players}\n`
+      output += `Owner: ${boardGame.owner}\n`
+      output += `Status: ${boardGame.availability?.available ? 'AVAILABLE' : 'BORROWED'}\n`
+      
+      if (boardGame.duration_minutes) {
+        output += `Duration: ${boardGame.duration_minutes} minutes\n`
+      }
+      
+      if (boardGame.complexity) {
+        output += `Complexity: ${boardGame.complexity}\n`
+      }
+      
+      if (boardGame.tags && boardGame.tags.length > 0) {
+        output += `Tags: ${boardGame.tags.join(', ')}\n`
+      }
+      
+      if (boardGame.notes) {
+        output += `\nNotes:\n${boardGame.notes}\n`
+      }
+      
+      if (!boardGame.availability?.available && boardGame.availability?.borrower) {
+        output += `\nCurrently borrowed by: ${boardGame.availability.borrower}\n`
+        if (boardGame.availability.until) {
+          output += `Due: ${boardGame.availability.until}\n`
+        }
+      }
+      
+      return output
+    }
+    
+    return `cat: ${itemId}: No such file or directory`
   } catch (error) {
-    return `cat: ${bookId}: ${error instanceof Error ? error.message : 'Unknown error'}`
+    return `cat: ${itemId}: ${error instanceof Error ? error.message : 'Unknown error'}`
   }
 }
 
 async function handleBorrow(args: string[], context: CommandContext): Promise<string> {
   if (args.length === 0) {
-    return 'borrow: missing book ID operand\nUsage: borrow <book-id> [--open]\n  --open    Open URL in new tab instead of displaying it'
+    return 'borrow: missing item ID operand\nUsage: borrow <item-id> [--open]\n  --open    Open URL in new tab instead of displaying it'
   }
   
-  const bookId = args[0]
+  const itemId = args[0]
   const shouldOpen = args.includes('--open')
   
   try {
-    const response = await fetch(`/api/terminal/book/${encodeURIComponent(bookId)}`)
-    if (!response.ok) {
-      return `borrow: ${bookId}: Book not found`
+    // Try book first
+    let response = await fetch(`/api/terminal/book/${encodeURIComponent(itemId)}`)
+    let item = null
+    let itemType = 'book'
+    
+    if (response.ok) {
+      item = await response.json()
+    } else {
+      // Try board game
+      response = await fetch(`/api/terminal/boardgame/${encodeURIComponent(itemId)}`)
+      if (response.ok) {
+        item = await response.json()
+        itemType = 'boardgame'
+      }
     }
     
-    const book = await response.json()
+    if (!item) {
+      return `borrow: ${itemId}: Item not found`
+    }
     
-    if (!book.availability?.available) {
-      return `borrow: ${bookId}: Book is not available for loan`
+    if (!item.availability?.available) {
+      return `borrow: ${itemId}: ${itemType === 'book' ? 'Book' : 'Board game'} is not available for loan`
     }
     
     const org = process.env.NEXT_PUBLIC_GH_ORG || 'your-org'
@@ -184,11 +274,12 @@ async function handleBorrow(args: string[], context: CommandContext): Promise<st
       repo,
       branch,
       year,
-      owner: book.owner,
-      bookId: book.id,
+      owner: item.owner,
+      bookId: item.id,
       borrower,
       requestedAt,
-      until
+      until,
+      itemType
     })
     
     if (shouldOpen) {
@@ -196,17 +287,17 @@ async function handleBorrow(args: string[], context: CommandContext): Promise<st
       if (typeof window !== 'undefined') {
         window.open(createUrl, '_blank', 'noopener,noreferrer')
       }
-      return `Opening loan request for "${book.title}" in new tab...`
+      return `Opening loan request for "${item.title}" in new tab...`
     }
     
-    return `Loan request URL generated for "${book.title}":
+    return `Loan request URL generated for "${item.title}":
 ${createUrl}
 
 
 Click the link above to create a GitHub Pull Request for this loan.
-Use 'borrow ${bookId} --open' to open directly in new tab.`
+Use 'borrow ${itemId} --open' to open directly in new tab.`
   } catch (error) {
-    return `borrow: ${bookId}: ${error instanceof Error ? error.message : 'Unknown error'}`
+    return `borrow: ${itemId}: ${error instanceof Error ? error.message : 'Unknown error'}`
   }
 }
 

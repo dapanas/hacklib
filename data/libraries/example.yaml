@@ -16,3 +16,36 @@ books:
     authors: [Robert C. Martin]
     tags: [programming, software-engineering, best-practices]
     notes: "Essential reading for any developer"
+
+boardgames:
+  - id: example--catan
+    title: "Catan"
+    min_players: 3
+    max_players: 4
+    duration_minutes: 90
+    age: "10+"
+    complexity: "medium"
+    category: [strategy, economic]
+    mechanics: [dice-rolling, trading, resource-management]
+    language_dependence: "low"
+    bgg_url: "https://boardgamegeek.com/boardgame/13/catan"
+    condition: "very-good"
+    complete: true
+    tags: [family-game, classic]
+    notes: "Edición en español, incluye expansión 5-6 jugadores"
+  
+  - id: example--pandemic
+    title: "Pandemic"
+    min_players: 2
+    max_players: 4
+    duration_minutes: 60
+    age: "8+"
+    complexity: "medium"
+    category: [cooperative, strategy]
+    mechanics: [hand-management, cooperative-play, variable-player-powers]
+    language_dependence: "medium"
+    bgg_url: "https://boardgamegeek.com/boardgame/30549/pandemic"
+    condition: "good"
+    complete: true
+    tags: [cooperative, strategy, family]
+    notes: "Juego cooperativo perfecto para jugar en equipo"

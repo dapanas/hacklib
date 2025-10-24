@@ -1,0 +1,104 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "required": ["owner", "boardgames"],
+  "properties": {
+    "owner": {
+      "type": "string",
+      "description": "GitHub handle of the library owner"
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date",
+      "description": "Last update date in YYYY-MM-DD format"
+    },
+    "boardgames": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "title", "min_players", "max_players"],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Unique identifier for the board game"
+          },
+          "title": {
+            "type": "string",
+            "description": "Board game title"
+          },
+          "min_players": {
+            "type": "integer",
+            "minimum": 1,
+            "description": "Minimum number of players"
+          },
+          "max_players": {
+            "type": "integer",
+            "minimum": 1,
+            "description": "Maximum number of players"
+          },
+          "duration_minutes": {
+            "type": "integer",
+            "minimum": 1,
+            "description": "Game duration in minutes"
+          },
+          "age": {
+            "type": "string",
+            "description": "Recommended age (e.g., '10+', '8+')"
+          },
+          "complexity": {
+            "type": "string",
+            "enum": ["light", "medium", "heavy"],
+            "description": "Game complexity level"
+          },
+          "category": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Game categories (strategy, economic, etc.)"
+          },
+          "mechanics": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Game mechanics (dice-rolling, trading, etc.)"
+          },
+          "language_dependence": {
+            "type": "string",
+            "enum": ["none", "low", "medium", "high"],
+            "description": "Language dependence level"
+          },
+          "bgg_url": {
+            "type": "string",
+            "format": "uri",
+            "pattern": "^https://boardgamegeek\\.com/boardgame/\\d+/.*$",
+            "description": "BoardGameGeek URL for the game"
+          },
+          "condition": {
+            "type": "string",
+            "enum": ["mint", "very-good", "good", "fair", "poor"],
+            "description": "Physical condition of the game"
+          },
+          "complete": {
+            "type": "boolean",
+            "description": "Whether all game pieces are present"
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Tags for categorization"
+          },
+          "notes": {
+            "type": "string",
+            "description": "Additional notes about the game"
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}
