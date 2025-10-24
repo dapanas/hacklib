@@ -1,3 +1,4 @@
+import { User, Tag } from 'lucide-react';
 import StatusBadge from './StatusBadge';
 import Nickname from './Nickname';
 
@@ -44,10 +45,25 @@ export default function BookCard({ book, availability, onRequestLoan }: BookCard
           </a>
         </h3>
         
-        {/* Author */}
-        <p className="text-gray-600 text-sm mb-6 font-medium">
-          by {Array.isArray(book.authors) ? book.authors.join(", ") : book.authors}
-        </p>
+        {/* Book Info */}
+        <div className="space-y-2 mb-4">
+          <div className="flex items-center gap-1 text-sm text-gray-600">
+            <User className="w-4 h-4 text-blue-500" />
+            <span className="line-clamp-1">
+              {Array.isArray(book.authors) ? book.authors.join(", ") : book.authors}
+            </span>
+          </div>
+          
+          {book.tags && book.tags.length > 0 && (
+            <div className="flex items-center gap-1 text-sm">
+              <Tag className="w-4 h-4 text-blue-500" />
+              <span className="text-gray-600 line-clamp-1">
+                {book.tags.slice(0, 2).join(', ')}
+                {book.tags.length > 2 && ` +${book.tags.length - 2} more`}
+              </span>
+            </div>
+          )}
+        </div>
       </div>
       
       {/* Bottom Section */}
