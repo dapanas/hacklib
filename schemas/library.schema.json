@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "type": "object",
-  "required": ["owner", "books"],
+  "required": ["owner"],
   "properties": {
     "owner": {
       "type": "string",
@@ -16,7 +16,7 @@
       "type": "array",
       "items": {
         "type": "object",
-        "required": ["id", "title"],
+        "required": ["id", "title", "authors"],
         "properties": {
           "id": {
             "type": "string",
@@ -27,11 +27,22 @@
             "description": "Book title"
           },
           "authors": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "description": "List of authors"
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            ],
+            "description": "Author(s) of the book"
+          },
+          "isbn": {
+            "type": "string",
+            "description": "ISBN number"
           },
           "tags": {
             "type": "array",
@@ -43,6 +54,310 @@
           "notes": {
             "type": "string",
             "description": "Additional notes about the book"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "boardgames": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "title", "min_players", "max_players"],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Unique identifier for the board game"
+          },
+          "title": {
+            "type": "string",
+            "description": "Board game title"
+          },
+          "min_players": {
+            "type": "integer",
+            "minimum": 1,
+            "description": "Minimum number of players"
+          },
+          "max_players": {
+            "type": "integer",
+            "minimum": 1,
+            "description": "Maximum number of players"
+          },
+          "duration_minutes": {
+            "type": ["integer", "string"],
+            "description": "Typical duration in minutes or a range (e.g., '60-90')"
+          },
+          "age": {
+            "type": "string",
+            "description": "Recommended age (e.g., '10+')"
+          },
+          "complexity": {
+            "type": "string",
+            "enum": ["light", "medium", "heavy"],
+            "description": "Complexity level of the game"
+          },
+          "category": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Categories for the game (e.g., strategy, economic)"
+          },
+          "mechanics": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Game mechanics (e.g., dice-rolling, trading)"
+          },
+          "language_dependence": {
+            "type": "string",
+            "enum": ["none", "low", "medium", "high"],
+            "description": "Level of language dependence"
+          },
+          "bgg_url": {
+            "type": "string",
+            "format": "uri",
+            "pattern": "^https://boardgamegeek\\.com/boardgame/\\d+/.*$",
+            "description": "BoardGameGeek URL for the game"
+          },
+          "condition": {
+            "type": "string",
+            "enum": ["mint", "very-good", "good", "fair", "poor"],
+            "description": "Physical condition of the game"
+          },
+          "complete": {
+            "type": "boolean",
+            "description": "Indicates if all components are present"
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Tags for categorization"
+          },
+          "notes": {
+            "type": "string",
+            "description": "Additional notes about the board game"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "videogames": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "title", "platform"],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Unique identifier for the video game"
+          },
+          "title": {
+            "type": "string",
+            "description": "Video game title"
+          },
+          "platform": {
+            "oneOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "Nintendo Switch",
+                  "Nintendo 3DS",
+                  "Nintendo Wii U",
+                  "Nintendo Wii",
+                  "Nintendo DS",
+                  "Game Boy Advance",
+                  "PlayStation 5",
+                  "PlayStation 4",
+                  "PlayStation 3",
+                  "PlayStation 2",
+                  "PlayStation 1",
+                  "PlayStation Vita",
+                  "PSP",
+                  "Xbox Series X|S",
+                  "Xbox One",
+                  "Xbox 360",
+                  "Xbox",
+                  "PC (Windows)",
+                  "PC (Mac)",
+                  "PC (Linux)",
+                  "iOS",
+                  "Android",
+                  "SNES",
+                  "NES",
+                  "Sega Genesis",
+                  "Sega Dreamcast",
+                  "Atari",
+                  "Other"
+                ]
+              },
+              {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "enum": [
+                    "Nintendo Switch",
+                    "Nintendo 3DS",
+                    "Nintendo Wii U",
+                    "Nintendo Wii",
+                    "Nintendo DS",
+                    "Game Boy Advance",
+                    "PlayStation 5",
+                    "PlayStation 4",
+                    "PlayStation 3",
+                    "PlayStation 2",
+                    "PlayStation 1",
+                    "PlayStation Vita",
+                    "PSP",
+                    "Xbox Series X|S",
+                    "Xbox One",
+                    "Xbox 360",
+                    "Xbox",
+                    "PC (Windows)",
+                    "PC (Mac)",
+                    "PC (Linux)",
+                    "iOS",
+                    "Android",
+                    "SNES",
+                    "NES",
+                    "Sega Genesis",
+                    "Sega Dreamcast",
+                    "Atari",
+                    "Other"
+                  ]
+                },
+                "minItems": 1,
+                "uniqueItems": true
+              }
+            ],
+            "description": "Platform(s) the game runs on"
+          },
+          "genre": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Game genres (adventure, action, etc.)"
+          },
+          "year": {
+            "type": "integer",
+            "minimum": 1970,
+            "maximum": 2030,
+            "description": "Release year"
+          },
+          "players": {
+            "type": "string",
+            "description": "Number of players (e.g., '1', '1-2', '1-4')"
+          },
+          "multiplayer": {
+            "type": "boolean",
+            "description": "Whether the game supports multiplayer"
+          },
+          "condition": {
+            "type": "string",
+            "enum": ["mint", "very-good", "good", "fair", "poor"],
+            "description": "Physical condition of the game"
+          },
+          "includes": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": ["game", "case", "manual", "box", "controller", "cables"]
+            },
+            "description": "What's included with the game"
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Tags for categorization"
+          },
+          "notes": {
+            "type": "string",
+            "description": "Additional notes about the game"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "electronics": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "title", "component_type"],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Unique identifier for the electronic component"
+          },
+          "title": {
+            "type": "string",
+            "description": "Component title"
+          },
+          "component_type": {
+            "type": "string",
+            "enum": [
+              "microcontroller",
+              "single-board-computer",
+              "sensor",
+              "module",
+              "kit",
+              "dev-board",
+              "component",
+              "tool"
+            ],
+            "description": "Type of electronic component"
+          },
+          "manufacturer": {
+            "type": "string",
+            "description": "Component manufacturer"
+          },
+          "specs": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Technical specifications"
+          },
+          "includes": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": ["board", "usb-cable", "power-supply", "heatsink", "case", "sd-card", "jumper-wires", "breadboard", "leds", "resistors", "sensors", "manual", "tutorial-book"]
+            },
+            "description": "What's included with the component"
+          },
+          "compatible_with": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Compatible software/frameworks"
+          },
+          "condition": {
+            "type": "string",
+            "enum": ["mint", "very-good", "good", "fair", "poor"],
+            "description": "Physical condition of the component"
+          },
+          "documentation_url": {
+            "type": "string",
+            "format": "uri",
+            "description": "Link to documentation"
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Tags for categorization"
+          },
+          "notes": {
+            "type": "string",
+            "description": "Additional notes about the component"
           }
         },
         "additionalProperties": false
