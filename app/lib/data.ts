@@ -84,6 +84,20 @@ export async function getVideoGameById(id: string) {
   return found;
 }
 
+export async function getAllElectronics() {
+  const libs = await getAllLibraries();
+  return libs.flatMap((lib: any) => 
+    (lib.electronics || []).map((el: any) => ({ ...el, owner: lib.owner }))
+  );
+}
+
+export async function getElectronicsById(id: string) {
+  const electronics = await getAllElectronics();
+  const found = electronics.find(el => el.id === id);
+  if (!found) throw new Error("Electronics not found");
+  return found;
+}
+
 export async function getAllLoans() {
   const base = path.join(process.cwd(), "data/loans");
   const years = await fs.readdir(base).catch(() => []);

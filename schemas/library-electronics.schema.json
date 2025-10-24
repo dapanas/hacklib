@@ -1,0 +1,96 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "required": ["owner", "electronics"],
+  "properties": {
+    "owner": {
+      "type": "string",
+      "description": "GitHub handle of the library owner"
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date",
+      "description": "Last update date in YYYY-MM-DD format"
+    },
+    "electronics": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "title", "component_type"],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Unique identifier for the electronic component"
+          },
+          "title": {
+            "type": "string",
+            "description": "Component title"
+          },
+          "component_type": {
+            "type": "string",
+            "enum": [
+              "microcontroller",
+              "single-board-computer",
+              "sensor",
+              "module",
+              "kit",
+              "dev-board",
+              "component",
+              "tool"
+            ],
+            "description": "Type of electronic component"
+          },
+          "manufacturer": {
+            "type": "string",
+            "description": "Component manufacturer"
+          },
+          "specs": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Technical specifications"
+          },
+          "includes": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": ["board", "usb-cable", "power-supply", "heatsink", "case", "sd-card", "jumper-wires", "breadboard", "leds", "resistors", "sensors", "manual", "tutorial-book"]
+            },
+            "description": "What's included with the component"
+          },
+          "compatible_with": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Compatible software/frameworks"
+          },
+          "condition": {
+            "type": "string",
+            "enum": ["mint", "very-good", "good", "fair", "poor"],
+            "description": "Physical condition of the component"
+          },
+          "documentation_url": {
+            "type": "string",
+            "format": "uri",
+            "description": "Link to documentation"
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Tags for categorization"
+          },
+          "notes": {
+            "type": "string",
+            "description": "Additional notes about the component"
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}

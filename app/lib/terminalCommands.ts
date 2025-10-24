@@ -52,10 +52,11 @@ async function handleLs(args: string[], context: CommandContext): Promise<string
     const now = new Date()
     const dateStr = now.toLocaleDateString('en-US', { month: 'short', day: '2-digit' })
     const timeStr = now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: false })
-    return `total 3
+    return `total 4
 drwxr-xr-x  2 hacklib hacklib 4096 ${dateStr} ${timeStr} books
 drwxr-xr-x  2 hacklib hacklib 4096 ${dateStr} ${timeStr} boardgames
 drwxr-xr-x  2 hacklib hacklib 4096 ${dateStr} ${timeStr} videogames
+drwxr-xr-x  2 hacklib hacklib 4096 ${dateStr} ${timeStr} electronics
 `
   }
   
@@ -143,6 +144,34 @@ drwxr-xr-x  2 hacklib hacklib 4096 ${dateStr} ${timeStr} videogames
     }
   }
   
+  if (path === '/electronics' || path === 'electronics') {
+    try {
+      const response = await fetch('/api/terminal/electronics')
+      const electronics = await response.json()
+      
+      if (!electronics || electronics.length === 0) {
+        return 'No electronics found in the library.'
+      }
+      
+      const now = new Date()
+      const dateStr = now.toLocaleDateString('en-US', { month: 'short', day: '2-digit' })
+      const timeStr = now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: false })
+      
+      let output = `total ${electronics.length}\n`
+      output += `drwxr-xr-x  2 hacklib hacklib 4096 ${dateStr} ${timeStr} .\n`
+      output += `drwxr-xr-x  2 hacklib hacklib 4096 ${dateStr} ${timeStr} ..\n`
+      
+      electronics.forEach((electronic: any) => {
+        const status = electronic.availability?.available ? 'AVAILABLE' : 'BORROWED'
+        output += `-rw-r--r--  1 ${electronic.owner} hacklib 1024 ${dateStr} ${timeStr} ${electronic.id} [${status}]\n`
+      })
+      
+      return output
+    } catch (error) {
+      return `Error loading electronics: ${error instanceof Error ? error.message : 'Unknown error'}`
+    }
+  }
+  
   return `ls: cannot access '${path}': No such file or directory`
 }
 
@@ -169,6 +198,11 @@ function handleCd(args: string[], context: CommandContext): string {
     return ''
   }
   
+  if (path === 'electronics' || path === '/electronics') {
+    context.setCurrentPath('/electronics')
+    return ''
+  }
+  
   if (path.startsWith('/book/') || path.startsWith('book/')) {
     const bookId = path.replace(/^\/?book\//, '')
     context.setCurrentPath(`/book/${bookId}`)
@@ -184,6 +218,12 @@ function handleCd(args: string[], context: CommandContext): string {
   if (path.startsWith('/videogame/') || path.startsWith('videogame/')) {
     const videoGameId = path.replace(/^\/?videogame\//, '')
     context.setCurrentPath(`/videogame/${videoGameId}`)
+    return ''
+  }
+  
+  if (path.startsWith('/electronic/') || path.startsWith('electronic/')) {
+    const electronicId = path.replace(/^\/?electronic\//, '')
+    context.setCurrentPath(`/electronic/${electronicId}`)
     return ''
   }
   
@@ -302,6 +342,42 @@ async function handleCat(args: string[], context: CommandContext): Promise<strin
       return output
     }
     
+    // Try electronics
+    response = await fetch(`/api/terminal/electronic/${encodeURIComponent(itemId)}`)
+    if (response.ok) {
+      const electronics = await response.json()
+      
+      let output = `=== ${electronics.title} ===\n`
+      output += `Type: ${electronics.component_type.replace(/-/g, ' ').replace(/\b\w/g, (l: string) => l.toUpperCase())}\n`
+      output += `Owner: ${electronics.owner}\n`
+      output += `Status: ${electronics.availability?.available ? 'AVAILABLE' : 'BORROWED'}\n`
+      
+      if (electronics.manufacturer) {
+        output += `Manufacturer: ${electronics.manufacturer}\n`
+      }
+      
+      if (electronics.specs && electronics.specs.length > 0) {
+        output += `Specs: ${electronics.specs.join(', ')}\n`
+      }
+      
+      if (electronics.tags && electronics.tags.length > 0) {
+        output += `Tags: ${electronics.tags.join(', ')}\n`
+      }
+      
+      if (electronics.notes) {
+        output += `\nNotes:\n${electronics.notes}\n`
+      }
+      
+      if (!electronics.availability?.available && electronics.availability?.borrower) {
+        output += `\nCurrently borrowed by: ${electronics.availability.borrower}\n`
+        if (electronics.availability.until) {
+          output += `Due: ${electronics.availability.until}\n`
+        }
+      }
+      
+      return output
+    }
+    
     return `cat: ${itemId}: No such file or directory`
   } catch (error) {
     return `cat: ${itemId}: ${error instanceof Error ? error.message : 'Unknown error'}`
@@ -336,6 +412,13 @@ async function handleBorrow(args: string[], context: CommandContext): Promise<st
         if (response.ok) {
           item = await response.json()
           itemType = 'videogame'
+        } else {
+          // Try electronics
+          response = await fetch(`/api/terminal/electronic/${encodeURIComponent(itemId)}`)
+          if (response.ok) {
+            item = await response.json()
+            itemType = 'electronics'
+          }
         }
       }
     }
@@ -345,7 +428,7 @@ async function handleBorrow(args: string[], context: CommandContext): Promise<st
     }
     
     if (!item.availability?.available) {
-      const itemTypeName = itemType === 'book' ? 'Book' : itemType === 'boardgame' ? 'Board game' : 'Video game';
+      const itemTypeName = itemType === 'book' ? 'Book' : itemType === 'boardgame' ? 'Board game' : itemType === 'videogame' ? 'Video game' : 'Electronics';
       return `borrow: ${itemId}: ${itemTypeName} is not available for loan`
     }
     

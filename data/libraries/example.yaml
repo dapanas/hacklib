@@ -86,3 +86,39 @@ videogames:
     includes: [game, case]
     tags: [rpg, cyberpunk, open-world]
     notes: "Versión actualizada con todos los parches"
+
+electronics:
+  - id: example--arduino-uno
+    title: "Arduino Uno R3"
+    component_type: "microcontroller"
+    manufacturer: "Arduino"
+    specs: ["ATmega328P", "14 digital pins", "6 analog inputs", "16MHz clock"]
+    includes: [board, usb-cable, jumper-wires, breadboard, leds, resistors]
+    compatible_with: [Arduino IDE, PlatformIO, MicroPython]
+    condition: "very-good"
+    documentation_url: "https://docs.arduino.cc/hardware/uno-r3"
+    tags: [microcontroller, arduino, beginner]
+    notes: "Perfecto para proyectos de iniciación"
+  
+  - id: example--raspberry-pi-4
+    title: "Raspberry Pi 4 Model B"
+    component_type: "single-board-computer"
+    manufacturer: "Raspberry Pi Foundation"
+    specs: ["4GB RAM", "ARM Cortex-A72", "4x USB 3.0", "Gigabit Ethernet", "WiFi 802.11ac"]
+    includes: [board, power-supply, heatsink, case, sd-card]
+    compatible_with: [Raspberry Pi OS, Ubuntu, Docker, Python, Node.js]
+    condition: "mint"
+    documentation_url: "https://www.raspberrypi.org/documentation/"
+    tags: [sbc, linux, development, iot]
+    notes: "Incluye tarjeta SD de 32GB con Raspberry Pi OS preinstalado"
+  
+  - id: example--sensor-kit
+    title: "Sensor Kit para Arduino"
+    component_type: "kit"
+    manufacturer: "Generic"
+    specs: ["30+ sensores", "Cables jumper", "Protoboard", "Resistencias"]
+    includes: [sensors, jumper-wires, breadboard, leds, resistors, manual, tutorial-book]
+    compatible_with: [Arduino IDE, PlatformIO]
+    condition: "good"
+    tags: [sensors, kit, learning, arduino]
+    notes: "Kit completo para aprender con sensores"

@@ -48,6 +48,12 @@ export default function Header() {
               Video Games 🎮
             </a>
             <a 
+              href="/electronics" 
+              className="btn-ghost"
+            >
+              Electronics 🔌
+            </a>
+            <a 
               href="/my-loans" 
               className="btn-ghost"
             >
@@ -119,11 +125,21 @@ export default function Header() {
               Video Games 🎮
             </a>
             <a 
-              href="/my-loans" 
+              href="/electronics" 
               className={`block py-3 px-4 rounded-lg hover:bg-white/20 transition-all duration-300 text-gray-900 font-medium transform hover:translate-x-1 ${
                 mobileMenuOpen ? 'translate-x-0 opacity-100' : '-translate-x-4 opacity-0'
               }`}
               style={{ transitionDelay: mobileMenuOpen ? '175ms' : '0ms' }}
+              onClick={closeMobileMenu}
+            >
+              Electronics 🔌
+            </a>
+            <a 
+              href="/my-loans" 
+              className={`block py-3 px-4 rounded-lg hover:bg-white/20 transition-all duration-300 text-gray-900 font-medium transform hover:translate-x-1 ${
+                mobileMenuOpen ? 'translate-x-0 opacity-100' : '-translate-x-4 opacity-0'
+              }`}
+              style={{ transitionDelay: mobileMenuOpen ? '200ms' : '0ms' }}
               onClick={closeMobileMenu}
             >
               My Loans
