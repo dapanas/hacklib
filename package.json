@@ -15,7 +15,7 @@
     "glob": "^11.0.0",
     "js-yaml": "^4.1.1",
     "lucide-react": "^0.547.0",
-    "next": "15.5.7",
+    "next": "15.5.9",
     "next-auth": "^5.0.0-beta.29",
     "react": "^19.2.0",
     "react-dom": "^19.2.0"
